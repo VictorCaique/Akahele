@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { TextInput, TextInputProps } from 'react-native';
+import React from 'react';
 import { Hoshi, HoshiProps } from 'react-native-textinput-effects'
 
 import { styles } from './style';

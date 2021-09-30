@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
         width: 90,
         borderRadius: 8,
         backgroundColor: '#FFF',
-        marginVertical: 50
     },
     title: {
         flex: 1,
