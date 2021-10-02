@@ -1,15 +1,23 @@
 import React from 'react';
-import { View, Image, Text, useWindowDimensions } from 'react-native';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { View, Image, Text } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { EntradaTexto } from '../../components/EntradaTexto'
-import { Botao } from '../../components/Botao'
-import { BotaoSemBorda } from '../../components/BotaoSemBorda'
+import { TopStackParamList } from '../../types'
+
+import { EntradaTexto } from '../../components/EntradaTexto';
+import { EntradaSenha } from '../../components/EntradaSenha';
+import { BotaoSemBorda } from '../../components/BotaoSemBorda';
 
 import { styles } from './style';
 import logoImage from '../../assets/logoImage.png';
 
-export function LogIn() {
+export interface LogInProps {
+    navigation: StackNavigationProp<TopStackParamList, 'LogIn'>;
+}
+
+export function LogIn({ navigation }: LogInProps) {
+    const [text, onChangeText] = React.useState("");
 
     return (
         <View style={styles.container}>
@@ -19,22 +27,30 @@ export function LogIn() {
                 <EntradaTexto
                     placeholder="Usuário"
                     style={styles.input}
+                    value={text}
+                    onChangeText={onChangeText}
                 />
-                <EntradaTexto
+                <EntradaSenha
                     placeholder="Senha"
                     style={styles.input}
                     secureTextEntry={true}
                 />
-                <View style={styles.botao1}>
+                <View style={styles.divBotoes}>
                     <BotaoSemBorda style={styles.botaoEsqueci}
                         texto="Esqueci a senha"
+                        funcao={()=> navigation.navigate('Recover')}
                     />
                     <BotaoSemBorda style={styles.botaoEsqueci}
                         texto="Cadastro"
+                        funcao={()=> navigation.navigate('Cadastro')}
                     />
                 </View>
                 <View style={styles.botao2}>
-                    <Botao texto="Entrar" />
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('LogIn')}
+                        style={styles.entrar}>
+                        <Text style={styles.title}>Entrar</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>

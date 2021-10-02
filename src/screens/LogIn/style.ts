@@ -19,15 +19,15 @@ export const styles = StyleSheet.create({
         maxHeight: 150,
     },
     input: {
-        paddingVertical: 40
+        margin: 15,
+        paddingTop: 30,
     },
-    botao1: {
-        paddingVertical: 5,
+    divBotoes: {
+        paddingVertical: 30,
         width: '100%',
         alignItems: 'flex-end',
         flexDirection: 'row-reverse',
-        // alignContent: "center",
-        justifyContent: 'space-around'
+        justifyContent: 'space-between'
     },
     botao2: {
         paddingVertical: 5,
@@ -38,5 +38,19 @@ export const styles = StyleSheet.create({
     },
     botaoEsqueci: {
         alignSelf: "flex-end",
-    }
+    },
+    entrar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 56,
+        width: 90,
+        borderRadius: 8,
+        backgroundColor: '#FFF',
+    },
+    title: {
+        flex: 1,
+        fontSize: 15,
+        textAlign: 'center',
+    },
+
 })

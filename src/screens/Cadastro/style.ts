@@ -6,29 +6,37 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: theme.colors.primary,
         alignItems: 'center',
-        justifyContent: 'space-around',
-        flexDirection: 'column',
         paddingTop: 30
     },
-    row1: {
-        alignItems: 'center',
-        justifyContent: 'center',
+    content: {
+        marginTop: '5%',
+        paddingHorizontal: 50,
+        width: '100%'
     },
     imagem: {
         maxWidth: 150,
         maxHeight: 150,
+        alignSelf: 'center',
     },
+    input: {
+        margin: 15,
+        paddingTop: 30,
+    },
+
     title: {
         paddingTop: '15%',
         fontFamily: theme.fonts.robotoBlack,
         fontSize: 16,
         color: '#FFF',
     },
-    input: {
-        width: '70%',
-        paddingBottom: '35%',
+
+    Botao: {
+        padding: '20%',
+        alignSelf: 'center',
+
     },
-    botao: {
-        paddingBottom: '5%'
-    },
+    Row: {
+        
+    }
+
 })

@@ -8,7 +8,7 @@ import { styles } from './style';
 // }
 
 export function EntradaTexto(props: HoshiProps, isNumeric: boolean) {
-    const [text, onChangeText] = React.useState("");
+    // const [text, onChangeText] = React.useState("");
 
     return (
         <Hoshi
@@ -16,8 +16,8 @@ export function EntradaTexto(props: HoshiProps, isNumeric: boolean) {
             placeholderTextColor={'#FFF'}
             borderColor={'#FFF'}
             inputPadding={16}
-            onChangeText={onChangeText}
-            value={text}
+            // onChangeText={onChangeText}
+            // value={text}
             style={styles.container}
             labelStyle={styles.label}
             inputStyle={styles.input}

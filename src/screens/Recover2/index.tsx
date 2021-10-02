@@ -10,11 +10,11 @@ import { Botao } from '../../components/Botao';
 import logoImage from '../../assets/logoImage.png';
 import { styles } from './style'
 
-export interface RecoverProps {
+export interface Recover2Props {
     navigation: StackNavigationProp<TopStackParamList>
 }
 
-export function Recover({ navigation }: RecoverProps ) {
+export function Recover2({ navigation }: Recover2Props) {
     const [texto, setTexto] = useState("");
 
     return (
@@ -22,7 +22,7 @@ export function Recover({ navigation }: RecoverProps ) {
             <View style={styles.row1}>
                 <Image source={logoImage}
                     style={styles.imagem} />
-                <Text style={styles.title}>Digite o E-mail cadastrado</Text>
+                <Text style={styles.title}>Digite o código de verificação</Text>
             </View>
 
             <View style={styles.input}>
@@ -33,7 +33,7 @@ export function Recover({ navigation }: RecoverProps ) {
             </View>
             <View style={styles.botao}>
                 <Botao texto="Avançar"
-                    funcao={() => navigation.navigate('Recover2')}
+                    funcao={() => navigation.navigate('NovaSenha')}
                 />
             </View>
         </View>

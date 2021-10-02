@@ -4,7 +4,9 @@ import { theme } from '../../global/styles/theme'
 export const styles = StyleSheet.create({
     container: {
         height: 35,
-        width: 130,
+        maxWidth: 140,
+        borderRadius: 10,
+        paddingHorizontal: 10,
         //backgroundColor: "#FFF",
         alignItems: "center",
         alignContent: "center",

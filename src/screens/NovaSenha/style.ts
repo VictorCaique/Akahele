@@ -25,10 +25,13 @@ export const styles = StyleSheet.create({
         color: '#FFF',
     },
     input: {
+        height: '35%',
         width: '70%',
+        justifyContent:'space-between',
         paddingBottom: '35%',
     },
     botao: {
+        width: 140,
         paddingBottom: '5%'
     },
 })

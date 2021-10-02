@@ -4,7 +4,7 @@ import { theme } from '../../global/styles/theme'
 export const styles = StyleSheet.create({
     container: {
         height: 50,
-        width: 280,
+        maxWidth: '100%',
         padding: 10,
         borderBottomColor: "#fff",
     },
