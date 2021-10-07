@@ -8,7 +8,13 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 30
     },
+    scrollView: {
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+    },
     content: {
+        // paddingVertical: '25%',
         marginTop: '5%',
         paddingHorizontal: 50,
         width: '100%'
@@ -19,8 +25,7 @@ export const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     input: {
-        margin: 15,
-        paddingTop: 30,
+        paddingVertical: 10,
     },
 
     title: {
@@ -36,7 +41,7 @@ export const styles = StyleSheet.create({
 
     },
     Row: {
-        
+
     }
 
 })

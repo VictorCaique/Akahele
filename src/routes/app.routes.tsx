@@ -8,12 +8,24 @@ import { Recover } from '../screens/Recover'
 import { Recover2 } from '../screens/Recover2'
 import { NovaSenha } from '../screens/NovaSenha'
 import { Cadastro } from '../screens/Cadastro'
+import { Button } from 'react-native';
 
 const Stack = createStackNavigator<TopStackParamList>();
 
 export function AppRoutes() {
     return (
-        <Stack.Navigator headerMode="none">
+        <Stack.Navigator
+        // headerMode="float"
+        // screenOptions={{
+        //     headerRight: () => (
+        //         <Button
+        //             onPress={() => alert('This is a Button!')}
+        //             title="Info"
+        //             color="#FFF"
+        //         />
+        //     )
+        // }} 
+        >
             <Stack.Screen name="LogIn" component={LogIn} />
             <Stack.Screen name="Recover" component={Recover} />
             <Stack.Screen name="Recover2" component={Recover2} />

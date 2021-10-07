@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { TopStackParamList } from '../../types'
 
+import { Botao } from '../../components/Botao';
 import { EntradaTexto } from '../../components/EntradaTexto';
 import { EntradaSenha } from '../../components/EntradaSenha';
 import { BotaoSemBorda } from '../../components/BotaoSemBorda';
@@ -38,19 +39,17 @@ export function LogIn({ navigation }: LogInProps) {
                 <View style={styles.divBotoes}>
                     <BotaoSemBorda style={styles.botaoEsqueci}
                         texto="Esqueci a senha"
-                        funcao={()=> navigation.navigate('Recover')}
+                        funcao={() => navigation.navigate('Recover')}
                     />
                     <BotaoSemBorda style={styles.botaoEsqueci}
                         texto="Cadastro"
-                        funcao={()=> navigation.navigate('Cadastro')}
+                        funcao={() => navigation.navigate('Cadastro')}
                     />
                 </View>
                 <View style={styles.botao2}>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('LogIn')}
-                        style={styles.entrar}>
-                        <Text style={styles.title}>Entrar</Text>
-                    </TouchableOpacity>
+                    <Botao
+                        texto="Entrar"
+                        funcao={() => navigation.navigate('LogIn')} />
                 </View>
             </View>
         </View>

@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         fontSize: 15,
         textAlign: 'center',
+        opacity: 0.65,
     },
 
 })

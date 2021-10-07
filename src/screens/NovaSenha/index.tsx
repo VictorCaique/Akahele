@@ -23,20 +23,23 @@ export function NovaSenha({ navigation }: NovaSenhaProps) {
             <View style={styles.row1}>
                 <Image source={logoImage}
                     style={styles.imagem} />
-                <Text style={styles.title}>Digite nova senha</Text>
+                <Text style={styles.title}>Digite a nova senha</Text>
             </View>
-
-            <View style={styles.input}>
-                <EntradaSenha
-                    placeholder="Senha"
-                    value={texto}
-                    onChangeText={(text) => setTexto(text)}
-                    showSoftInputOnFocus={false} />
-                <EntradaSenha
-                    placeholder="Confirmar Senha"
-                    value={textoConfirm}
-                    onChangeText={(text) => setTextoConfirm(text)}
-                    showSoftInputOnFocus={false} />
+            <View >
+                <View style={styles.input}>
+                    <EntradaSenha
+                        placeholder="Senha"
+                        value={texto}
+                        onChangeText={(text) => setTexto(text)}
+                        showSoftInputOnFocus={false} />
+                </View>
+                <View style={styles.input}>
+                    <EntradaSenha
+                        placeholder="Confirmar Senha"
+                        value={textoConfirm}
+                        onChangeText={(text) => setTextoConfirm(text)}
+                        showSoftInputOnFocus={false} />
+                </View>
             </View>
             <View style={styles.botao}>
                 <Botao texto="Alterar Senha"

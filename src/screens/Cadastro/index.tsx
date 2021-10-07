@@ -21,8 +21,8 @@ export function Cadastro({ navigation }: CadastroProps) {
     return (
 
         <SafeAreaView style={styles.container}>
-            <ScrollView>
-                <View >
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <View style={styles.scrollView}>
                     <Image source={logoImage}
                         style={styles.imagem} />
                     <View style={styles.content}>
@@ -41,16 +41,20 @@ export function Cadastro({ navigation }: CadastroProps) {
                             value={text}
                             onChangeText={onChangeText}
                         />
-                        <EntradaSenha
-                            placeholder="Senha"
-                            style={styles.input}
-                            secureTextEntry={true}
-                        />
-                        <EntradaSenha
-                            placeholder="Confirmar Senha"
-                            style={styles.input}
-                            secureTextEntry={true}
-                        />
+                        <View style={styles.input}>
+                            <EntradaSenha
+                                placeholder="Senha"
+                                style={styles.input}
+                                secureTextEntry={true}
+                            />
+                        </View>
+                        <View style={styles.input}>
+                            <EntradaSenha
+                                placeholder="Confirmar Senha"
+                                style={styles.input}
+                                secureTextEntry={true}
+                            />
+                        </View>
                         <View style={styles.Botao}>
                             <Botao
                                 texto="Cadastrar"
