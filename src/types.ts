@@ -6,4 +6,10 @@ export type TopStackParamList = {
     Recover2: undefined,
     NovaSenha: undefined,
     Cadastro: undefined,
+    Home: undefined,
+}
+
+export type TabParamList = {
+    Busca: undefined,
+    Comunidades: undefined,
 }

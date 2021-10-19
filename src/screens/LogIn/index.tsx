@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Image, Text } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { TopStackParamList } from '../../types'
+import { TopStackParamList } from '../../types';
+
+import authContext from '../../contexts/auth';
 
 import { Botao } from '../../components/Botao';
 import { EntradaTexto } from '../../components/EntradaTexto';
@@ -18,6 +20,14 @@ export interface LogInProps {
 }
 
 export function LogIn({ navigation }: LogInProps) {
+    const { signed, signIn } = useContext(authContext);
+
+    console.log(signed);
+
+    function handleSignIn() {
+        signIn();
+    }
+
     const [text, onChangeText] = React.useState("");
 
     return (
@@ -49,7 +59,7 @@ export function LogIn({ navigation }: LogInProps) {
                 <View style={styles.botao2}>
                     <Botao
                         texto="Entrar"
-                        funcao={() => navigation.navigate('LogIn')} />
+                        funcao={handleSignIn} />
                 </View>
             </View>
         </View>

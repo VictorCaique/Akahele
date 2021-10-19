@@ -1,36 +1,60 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import { Entypo, Feather } from '@expo/vector-icons'
 
 import { TopStackParamList } from '../types'
 
-import { LogIn } from '../screens/LogIn'
-import { Recover } from '../screens/Recover'
-import { Recover2 } from '../screens/Recover2'
-import { NovaSenha } from '../screens/NovaSenha'
-import { Cadastro } from '../screens/Cadastro'
-import { Button } from 'react-native';
+import { Home } from '../screens/Home';
+import { Busca } from '../screens/Busca';
+import { Comunidades } from '../screens/Comunidades';
+// import { Button } from 'react-native';
 
-const Stack = createStackNavigator<TopStackParamList>();
+import { theme } from '../global/styles/theme';
 
-export function AppRoutes() {
+
+// Começando o Tab Navigator
+
+const Tab = createBottomTabNavigator();
+
+export function TabRoutes() {
     return (
-        <Stack.Navigator
-        // headerMode="float"
-        // screenOptions={{
-        //     headerRight: () => (
-        //         <Button
-        //             onPress={() => alert('This is a Button!')}
-        //             title="Info"
-        //             color="#FFF"
-        //         />
-        //     )
-        // }} 
-        >
-            <Stack.Screen name="LogIn" component={LogIn} />
-            <Stack.Screen name="Recover" component={Recover} />
-            <Stack.Screen name="Recover2" component={Recover2} />
-            <Stack.Screen name="NovaSenha" component={NovaSenha} />
-            <Stack.Screen name="Cadastro" component={Cadastro} />
-        </Stack.Navigator>
+        <Tab.Navigator
+            initialRouteName="Home"
+            screenOptions={{
+                tabBarActiveTintColor: 'white',
+                tabBarInactiveTintColor: 'gray',
+                tabBarStyle: {
+                    backgroundColor: theme.colors.primary,
+                    paddingTop: 5,
+                    paddingBottom: 5,
+                }
+            }
+            }>
+            <Tab.Screen
+                name="Home"
+                component={DrawerRoutes}
+                options={{
+                    tabBarIcon: ({ size, color }) => (
+                        <Entypo name="home" size={size} color={color} />
+                    )
+                }}
+            />
+            <Tab.Screen name="Comunidades" component={Comunidades} />
+            <Tab.Screen name="Busca" component={Busca} />
+        </Tab.Navigator>
+    )
+}
+
+// Começando o Drawer navigator
+
+const Drawer = createDrawerNavigator();
+
+export function DrawerRoutes() {
+    return (
+        <Drawer.Navigator>
+            <Drawer.Screen name="Home" component={Home} />
+        </Drawer.Navigator>
     )
 }
