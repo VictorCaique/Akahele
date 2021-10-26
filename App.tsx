@@ -5,9 +5,9 @@ import { NavigationContainer } from '@react-navigation/native'
 
 import { Routes } from './src/routes'
 
-import {AuthProvider} from './src/contexts/auth'
+import { AuthProvider } from './src/contexts/auth'
 
-import { Roboto_900Black, Roboto_300Light } from '@expo-google-fonts/roboto'
+import { Roboto_900Black, Roboto_300Light, Roboto_500Medium } from '@expo-google-fonts/roboto'
 import { useFonts } from 'expo-font'
 
 
@@ -15,6 +15,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto_900Black,
     Roboto_300Light,
+    Roboto_500Medium
   });
 
   if (!fontsLoaded) {
