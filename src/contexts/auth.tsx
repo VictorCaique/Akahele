@@ -25,6 +25,8 @@ export const AuthProvider: React.FC = ({ children }) => {
             if (storagedToken && storagedUser) {
                 setUser(JSON.parse(storagedUser))
                 setLoading(false);
+            } else {
+                setLoading(false)
             }
         }
 
@@ -47,7 +49,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        <authContext.Provider value={{ signed: !!user, signIn, user, signOut, loading }}>
+        <authContext.Provider value={{ signed: user ? true : false, signIn, user, signOut, loading }}>
             {children}
         </authContext.Provider>
     )

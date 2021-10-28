@@ -16,6 +16,6 @@ export function singIn(): Promise<Response> {
                     email: 'victor.caique@email.com',
                 }
             })
-        }, 2000)
+        }, 1000)
     })
 }

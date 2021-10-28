@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, View, Text } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { getHeaderTitle, Header } from '@react-navigation/elements';
+// import { getHeaderTitle, Header } from '@react-navigation/elements';
 import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/drawer';
 // import { createStackNavigator } from '@react-navigation/stack';
 import { } from '@react-navigation/elements';
@@ -99,7 +99,7 @@ export function DrawerRoutes() {
                 headerTitle: " ",
                 drawerType: 'front',
                 headerTintColor: '#FFF',
-                headerLeft: () => <DrawerButton />,
+                // headerLeft: () => <DrawerButton />,
                 swipeMinDistance: 10
 
 

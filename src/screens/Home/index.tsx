@@ -3,9 +3,8 @@ import { FlatList, Text, View } from 'react-native'
 
 import { userCollection, postCollection } from '../../types'
 
-import database from '../../config/firebaseConfig';
-import { getImage } from '../../controllers/storageController';
-import 'firebase/firestore'
+import { database } from '../../config/firebaseConfig';
+// import { getImage } from '../../controllers/storageController';
 
 import {
     Post,
@@ -32,7 +31,7 @@ export function Home() {
                 })
                 var userList: Array<object> = []
                 list.forEach((props): any => {
-                    var post: any = props;
+                    var post: postCollection = props as postCollection;
                     database.collection('usuarios').onSnapshot(query => {
                         query.forEach(doc => {
                             if (doc.id == post.usuario) {
@@ -56,7 +55,7 @@ export function Home() {
             });
         }
         loadFeed();
-        // console.log(feed);
+        console.log(feed);
         // console.log("*******************************");
         // console.log(user);
     }, [])
@@ -69,7 +68,7 @@ export function Home() {
                 renderItem={({ item }: any) => (
                     <Post>
                         <PostBackgroud>
-                            <PostImage source={{ uri: getImage(item.postId, "post_image") }} />
+                            <PostImage source={{ uri: "aaa" }} />
                             <PostDescription>
                                 {item.texto_publicacao}
                             </PostDescription>

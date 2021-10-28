@@ -9,7 +9,7 @@ import {
     Switch,
 } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 
@@ -49,7 +49,7 @@ export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
                     style={styles.drawerSection}
                     label={() => <Text style={styles.label}>Usuário</Text>}
                     icon={({ size, color }) =>
-                        <Icon
+                        <MaterialCommunityIcons
                             name="account-outline"
                             size={size}
                             color="#D9007A" />}
@@ -58,7 +58,7 @@ export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
                     style={styles.drawerSection}
                     label={() => <Text style={styles.label}>Criar Comunidade</Text>}
                     icon={({ size, color }) =>
-                        <Icon
+                        <MaterialCommunityIcons
                             name="plus"
                             size={size}
                             color="#185cfd" />}
@@ -67,7 +67,7 @@ export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
                     style={styles.drawerSection}
                     label={() => <Text style={styles.label}>Suporte</Text>}
                     icon={({ size, color }) =>
-                        <Icon
+                        <MaterialCommunityIcons
                             name="headset"
                             size={size}
                             color="#2D6E31" />}
@@ -88,7 +88,7 @@ export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
                 <DrawerItem
                     label="Sair"
                     icon={({ size, color }) =>
-                        <Icon
+                        <MaterialCommunityIcons
                             name="exit-to-app"
                             size={size}
                             color={color} />}

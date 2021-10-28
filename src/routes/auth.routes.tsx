@@ -14,6 +14,7 @@ const Stack = createStackNavigator<TopStackParamList>();
 export function AuthRoutes() {
     return (
         <Stack.Navigator headerMode="none"
+            initialRouteName="LogIn"
         // headerMode="float"
         // screenOptions={{
         //     headerRight: () => (
