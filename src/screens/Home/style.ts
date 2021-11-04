@@ -3,12 +3,28 @@ import styled, { css } from 'styled-components/native';
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1
+        justifyContent: "center",
+        alignContent: "center",
+        borderRadius: 15,
+        marginHorizontal: 30
+    },
+    imagem: {
+        marginHorizontal: 30,
+        marginVertical: 10,
+        width: "80%",
+        height: 200,
+
+
+    },
+    postBackgroud: {
+        borderRadius: 10,
+        backgroundColor: "#C4C4FF",
+
     }
 })
 
 export const Post = styled.View`
-    
+    margin-top: 10px;
 `;
 
 export const PostBackgroud = styled.View`

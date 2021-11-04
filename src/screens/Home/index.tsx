@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Text, View } from 'react-native'
 
+import getFeed from '../../services/feed'
+
 import { userCollection, postCollection } from '../../types'
 
-import { database } from '../../config/firebaseConfig';
+import { database, storage } from '../../config/firebaseConfig';
 // import { getImage } from '../../controllers/storageController';
 
 import {
@@ -13,51 +15,39 @@ import {
     AvatarUser,
     Name,
     PostDescription,
-    UserDescription
+    UserDescription,
+    styles
 } from './style';
 
 export function Home() {
-    const initialArr: Array<object> = []
+    const initialArr: Array<Object> = []
     const [feed, setFeed] = useState(initialArr);
-    const [user, setUser] = useState(initialArr);
+    // const [user, setUser] = useState(initialArr);
 
     useEffect(() => {
         async function loadFeed() {
-            database.collection('publicacao').onSnapshot(query => {
-                var list: Array<object> = [];
-                query.forEach(doc => {
-                    list.push({ ...doc.data(), idPost: doc.id })
-                    // console.log(list);
-                })
-                var userList: Array<object> = []
-                list.forEach((props): any => {
-                    var post: postCollection = props as postCollection;
-                    database.collection('usuarios').onSnapshot(query => {
-                        query.forEach(doc => {
-                            if (doc.id == post.usuario) {
-                                userList.push({ ...doc.data(), idUser: doc.id })
-                                // console.log(userList)
-                            }
-                        })
+            var storageRef = storage.ref()
+            database.collection('publicacao').get().then(querySnapshot => {
+                var list: Array<Object> = []
+                querySnapshot.forEach(doc => {
+                    var docData = doc.data() as postCollection;
+                    storageRef.child("post-image/" + docData.post_image).getDownloadURL().then(url => {
+                        // console.log("UURL: ", url);
+                        list.push({ ...doc.data(), idPost: doc.id, uriImage: url });
+                        console.log("SACO: ", list)
+                        setFeed(list);
+                    }).catch(e => {
+                        console.log("ERROR: " + e);
                     })
-                })
-                setUser(userList);
 
-                list.forEach((value, index, arr) => {
-                    var post = list[index] as postCollection;
-                    var usuario = user[index] as userCollection;
-                    // console.log(usuario);
-                    if (usuario.idUser == post.usuario) {
-                        list[index] = { ...post, ...usuario }
-                    }
+
                 })
-                setFeed(list);
-            });
+
+            })
         }
         loadFeed();
-        console.log(feed);
         // console.log("*******************************");
-        // console.log(user);
+        console.log("FEED: ", feed);
     }, [])
 
     return (
@@ -66,9 +56,9 @@ export function Home() {
                 data={feed}
                 keyExtractor={(item, index) => String(index)}
                 renderItem={({ item }: any) => (
-                    <Post>
-                        <PostBackgroud>
-                            <PostImage source={{ uri: "aaa" }} />
+                    <Post style={styles.container}>
+                        <PostBackgroud style={styles.postBackgroud}>
+                            <PostImage style={styles.imagem} source={{ uri: item.uriImage }} />
                             <PostDescription>
                                 {item.texto_publicacao}
                             </PostDescription>

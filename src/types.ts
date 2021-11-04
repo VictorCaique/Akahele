@@ -23,7 +23,7 @@ export type DrawerList = {
     DrawerButton: undefined,
 }
 
-export type userCollection = {
+export interface userCollection {
     avatar_image: String,
     cidade: String,
     data_nascimento: String,
@@ -34,11 +34,11 @@ export type userCollection = {
     idUser: String
 }
 
-export type postCollection = {
+export interface postCollection {
     data_publicacao: String,
     horario_publicacao: String,
-    post_image: String,
+    post_image: string,
     texto_publicacao: String,
-    usuario: String,
+    usuario: string,
     idPost: String,
 }
