@@ -41,4 +41,5 @@ export interface postCollection {
     texto_publicacao: String,
     usuario: string,
     idPost: String,
+    avatar_image: string,
 }

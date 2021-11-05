@@ -33,9 +33,11 @@ export function Home() {
                     var docData = doc.data() as postCollection;
                     storageRef.child("post-image/" + docData.post_image).getDownloadURL().then(url => {
                         // console.log("UURL: ", url);
-                        list.push({ ...doc.data(), idPost: doc.id, uriImage: url });
-                        console.log("SACO: ", list)
-                        setFeed(list);
+                        storageRef.child("user-avatar/" + docData.avatar_image).getDownloadURL().then(avatarUrl => {
+                            list.push({ ...doc.data(), idPost: doc.id, uriImage: url, uriAvatar: avatarUrl });
+                            console.log("SACO: ", list)
+                            setFeed(list);
+                        })
                     }).catch(e => {
                         console.log("ERROR: " + e);
                     })
@@ -59,13 +61,13 @@ export function Home() {
                     <Post style={styles.container}>
                         <PostBackgroud style={styles.postBackgroud}>
                             <PostImage style={styles.imagem} source={{ uri: item.uriImage }} />
-                            <PostDescription>
+                            <PostDescription style={styles.description}>
                                 {item.texto_publicacao}
                             </PostDescription>
                         </PostBackgroud>
                         <UserDescription>
-                            <AvatarUser source={{ uri: item.avatar_image }} />
-                            <Name>{item.nome_usuario}</Name>
+                            <AvatarUser source={{ uri: item.uriAvatar }} />
+                            <Name style={styles.title}>{item.nome_usuario}</Name>
                         </UserDescription>
                     </Post>
                 )} />
