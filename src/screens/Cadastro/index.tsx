@@ -3,6 +3,7 @@ import { SafeAreaView, Image, Text, ScrollView, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { TopStackParamList } from '../../types'
+import { signIn } from '../../services/userCreate'
 
 import { EntradaTexto } from '../../components/EntradaTexto';
 import { EntradaSenha } from '../../components/EntradaSenha';
@@ -16,7 +17,14 @@ export interface CadastroProps {
 }
 
 export function Cadastro({ navigation }: CadastroProps) {
-    const [text, onChangeText] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [usuario, setUsuario] = React.useState("");
+    const [senha, setSenha] = React.useState("");
+    const [confirm, setConfirm] = React.useState("");
+
+    function handleSiginIn() {
+        signIn(email, senha, confirm);
+    }
 
     return (
 
@@ -32,20 +40,22 @@ export function Cadastro({ navigation }: CadastroProps) {
                         <EntradaTexto
                             placeholder="Usuário"
                             style={styles.input}
-                            value={text}
-                            onChangeText={onChangeText}
+                            value={usuario}
+                            onChangeText={setUsuario}
                         />
                         <EntradaTexto
                             placeholder="Email"
                             style={styles.input}
-                            value={text}
-                            onChangeText={onChangeText}
+                            value={email}
+                            onChangeText={setEmail}
                         />
                         <View style={styles.input}>
                             <EntradaSenha
                                 placeholder="Senha"
                                 style={styles.input}
                                 secureTextEntry={true}
+                                value={senha}
+                                onChangeText={setSenha}
                             />
                         </View>
                         <View style={styles.input}>
@@ -53,12 +63,14 @@ export function Cadastro({ navigation }: CadastroProps) {
                                 placeholder="Confirmar Senha"
                                 style={styles.input}
                                 secureTextEntry={true}
+                                value={confirm}
+                                onChangeText={setConfirm}
                             />
                         </View>
                         <View style={styles.Botao}>
                             <Botao
                                 texto="Cadastrar"
-                                funcao={() => null}
+                                funcao={handleSiginIn}
                             />
                         </View>
                     </View>

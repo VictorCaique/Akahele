@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase, {initializeApp} from 'firebase';
 const firebaseConfig = {
     apiKey: "AIzaSyDIE-2J1y3BrdHmdAdA9wior8LNCYSROCM",
     authDomain: "akahele-oficial.firebaseapp.com",
@@ -9,7 +9,9 @@ const firebaseConfig = {
     measurementId: "G-8H8LZRFTZN"
 };
 
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 // firebase.analytics();
-export const database = firebase.firestore();
-export const storage = firebase.storage();
+export const database = firebase.firestore(app);
+export const storage = firebase.storage(app);
+export const auth = firebase.auth(app, "Akahele");
+export const firebaseApp = firebase;
