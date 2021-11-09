@@ -1,6 +1,7 @@
 export const theme = {
     colors: {
-        primary: '#00C2CB'
+        primary: '#00C2CB',
+        secundary: '#5FD038'
     },
     fonts: {
         robotoBlack: 'Roboto_900Black',

@@ -20,12 +20,12 @@ export interface LogInProps {
 }
 
 export function LogIn({ navigation }: LogInProps) {
-    const { signed, signIn } = useContext(authContext);
+    const { signed } = useContext(authContext);
 
     console.log(signed);
 
     function handleSignIn() {
-        signIn();
+
     }
 
     const [text, onChangeText] = React.useState("");
@@ -37,7 +37,7 @@ export function LogIn({ navigation }: LogInProps) {
             <View style={styles.content}>
                 <EntradaTexto
                     placeholder="Usuário"
-                    style={styles.input}
+                    // style={styles.input}
                     value={text}
                     onChangeText={onChangeText}
                 />

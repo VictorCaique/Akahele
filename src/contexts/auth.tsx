@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as auth from '../services/auth';
+import firebase from 'firebase';
 
 interface AuthContextData {
     signed: boolean,
-    signIn(): Promise<void>,
+    cadastrar(email: string, pass: string, confirmPass: string): Promise<void>,
     user: object | null,
     signOut(): void,
     loading: boolean,
@@ -14,7 +15,7 @@ interface AuthContextData {
 const authContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-    const [user, setUser] = useState<object | null>(null);
+    const [user, setUser] = useState<firebase.User | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -33,13 +34,15 @@ export const AuthProvider: React.FC = ({ children }) => {
         loadStorageData();
     }, [])
 
-    async function signIn() {
-        const response = await auth.singIn();
+    async function cadastrar(email: string, pass: string, confirmPass: string) {
+        const response = auth.cadastro(email, pass, confirmPass);
 
-        setUser(response.user);
+        setUser(response as firebase.User);
 
-        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user))
-        await AsyncStorage.setItem('@RNAuth:token', response.token)
+        const reponseJ = response.toJSON();
+
+        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(reponseJ))
+        await AsyncStorage.setItem('@RNAuth:token', response.getIdToken())
     }
 
     function signOut() {
@@ -49,7 +52,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        <authContext.Provider value={{ signed: user ? true : false, signIn, user, signOut, loading }}>
+        <authContext.Provider value={{ signed: user ? true : false, cadastrar, user, signOut, loading }}>
             {children}
         </authContext.Provider>
     )

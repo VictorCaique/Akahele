@@ -8,6 +8,7 @@ import { Recover } from '../screens/Recover'
 import { Recover2 } from '../screens/Recover2'
 import { NovaSenha } from '../screens/NovaSenha'
 import { Cadastro } from '../screens/Cadastro'
+import { Cadastro2 } from '../screens/Cadastro2'
 
 const Stack = createStackNavigator<TopStackParamList>();
 
@@ -31,6 +32,7 @@ export function AuthRoutes() {
             <Stack.Screen name="Recover2" component={Recover2} />
             <Stack.Screen name="NovaSenha" component={NovaSenha} />
             <Stack.Screen name="Cadastro" component={Cadastro} />
+            <Stack.Screen name="Cadastro2" component={Cadastro2} />
         </Stack.Navigator>
     )
 }

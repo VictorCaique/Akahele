@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView, Image, Text, ScrollView, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { TopStackParamList } from '../../types'
-import { signIn } from '../../services/userCreate'
+
+import authContext from '../../contexts/auth'
 
 import { EntradaTexto } from '../../components/EntradaTexto';
 import { EntradaSenha } from '../../components/EntradaSenha';
@@ -18,12 +19,14 @@ export interface CadastroProps {
 
 export function Cadastro({ navigation }: CadastroProps) {
     const [email, setEmail] = React.useState("");
-    const [usuario, setUsuario] = React.useState("");
     const [senha, setSenha] = React.useState("");
     const [confirm, setConfirm] = React.useState("");
 
+    const { cadastrar } = useContext(authContext);
+
     function handleSiginIn() {
-        signIn(email, senha, confirm);
+        cadastrar(email, senha, confirm);
+        navigation.navigate("Cadastro2");
     }
 
     return (
@@ -38,14 +41,7 @@ export function Cadastro({ navigation }: CadastroProps) {
                         <Text style={styles.title}>Insira suas informações: </Text>
 
                         <EntradaTexto
-                            placeholder="Usuário"
-                            style={styles.input}
-                            value={usuario}
-                            onChangeText={setUsuario}
-                        />
-                        <EntradaTexto
                             placeholder="Email"
-                            style={styles.input}
                             value={email}
                             onChangeText={setEmail}
                         />

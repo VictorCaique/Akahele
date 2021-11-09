@@ -7,6 +7,7 @@ export type TopStackParamList = {
     NovaSenha: undefined,
     Cadastro: undefined,
     Home: undefined,
+    Cadastro2: undefined,
 }
 
 export type TabParamList = {

@@ -1,17 +1,22 @@
-import {auth} from '../config/firebaseConfig';
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import {
+    auth
+} from '../config/firebaseConfig';
 
 const authProvider = auth;
 
 
-export function signIn(email, password, confirmPassword){
-    console.log(email);
-    if (password == confirmPassword){
+export default function Cadastro(email, password, confirmPassword) {
+    var user;
+    if (password == confirmPassword) {
         authProvider.createUserWithEmailAndPassword(email, password).then(userCrencials => {
-                const user = userCrencials.user;
-                return user;
+            var usuario = userCrencials.user;
+            user = usuario;
+            console.log("Cadastro concluido: " + user);
+
         }).catch(e => {
-            console.log("ERROR COD: ",e.code," ERROR: ",e.message)
+            console.log("ERROR COD: ", e.code, " ERROR: ", e.message)
         })
     }
+    return user;
+    console.log(user);
 }

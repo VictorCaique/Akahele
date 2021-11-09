@@ -1,3 +1,6 @@
+import firebase from 'firebase';
+import Cadastro from '../services/userCreate'
+
 interface Response {
     token: string,
     user: {
@@ -18,4 +21,11 @@ export function singIn(): Promise<Response> {
             })
         }, 1000)
     })
+}
+
+export function cadastro(email: string, pass: string, confirmPass: string): firebase.User | any {
+    const userCredencials = Cadastro(email, pass, confirmPass);
+    if (userCredencials) {
+        return userCredencials as firebase.User;
+    }
 }

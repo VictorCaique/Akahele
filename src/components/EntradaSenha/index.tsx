@@ -25,8 +25,8 @@ export function EntradaSenha(props: HoshiProps, isNumeric: boolean) {
                 labelStyle={styles.label}
                 inputStyle={styles.hoshi}
                 secureTextEntry={hide}
-                value={text}
-                onChangeText={(texto) => setText(texto)}
+                value={props.value}
+                onChangeText={props.onChangeText}
             />
             <TouchableOpacity style={styles.icon} onPress={() => setHide(!hide)}>
                 {hide ?

@@ -3,24 +3,25 @@ import { Hoshi, HoshiProps } from 'react-native-textinput-effects'
 
 import { styles } from './style';
 
-// type Props = TextInputProps & {
+type Props = HoshiProps & {
+    isNumeric?: boolean
+}
 
-// }
-
-export function EntradaTexto(props: HoshiProps, isNumeric: boolean) {
+export function EntradaTexto(props: Props) {
     // const [text, onChangeText] = React.useState("");
 
     return (
         <Hoshi
             label={props.placeholder}
-            placeholderTextColor={'#FFF'}
-            borderColor={'#FFF'}
+            placeholderTextColor={props.placeholderTextColor !== undefined ? props.placeholderTextColor : "#FFF"}
+            borderColor={props.borderColor != undefined ? props.borderColor : "#FFF"}
             inputPadding={16}
-            // onChangeText={onChangeText}
-            // value={text}
-            style={styles.container}
-            labelStyle={styles.label}
-            inputStyle={styles.input}
+            onChangeText={props.onChangeText}
+            value={props.value}
+            style={props.style != undefined ? props.style : styles.container}
+            labelStyle={props.labelStyle != undefined ? props.labelStyle : styles.label}
+            inputStyle={props.inputStyle != undefined ? props.inputStyle : styles.label}
+            keyboardType={props.isNumeric ? "number-pad" : "default"}
         />
     );
 
