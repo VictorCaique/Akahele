@@ -20,15 +20,16 @@ export interface LogInProps {
 }
 
 export function LogIn({ navigation }: LogInProps) {
-    const { signed } = useContext(authContext);
+    const { signed, signIn } = useContext(authContext);
 
     console.log(signed);
 
     function handleSignIn() {
-
+        signIn(usuario, senha);
     }
 
-    const [text, onChangeText] = React.useState("");
+    const [usuario, setUsuario] = React.useState("");
+    const [senha, setSenha] = React.useState("");
 
     return (
         <View style={styles.container}>
@@ -38,13 +39,15 @@ export function LogIn({ navigation }: LogInProps) {
                 <EntradaTexto
                     placeholder="Usuário"
                     // style={styles.input}
-                    value={text}
-                    onChangeText={onChangeText}
+                    value={usuario}
+                    onChangeText={setUsuario}
                 />
                 <EntradaSenha
                     placeholder="Senha"
                     style={styles.input}
                     secureTextEntry={true}
+                    value={senha}
+                    onChangeText={setSenha}
                 />
                 <View style={styles.divBotoes}>
                     <BotaoSemBorda style={styles.botaoEsqueci}

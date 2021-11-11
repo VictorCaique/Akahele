@@ -8,11 +8,12 @@ import { styles } from './style';
 import { theme } from '../../global/styles/theme'
 
 export function Cadastro2() {
-    const [nome, setNome] = React.useState("");
-    const [phone, setPhone] = React.useState("");
+    const [nome, setNome] = useState("");
+    const [phone, setPhone] = useState("");
 
     return (
         <View style={styles.container}>
+
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <EntradaTexto style={{
                     borderBottomColor: theme.colors.secundary,

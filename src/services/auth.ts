@@ -1,26 +1,14 @@
 import firebase from 'firebase';
+import { auth } from '../config/firebaseConfig';
 import Cadastro from '../services/userCreate'
 
-interface Response {
-    token: string,
-    user: {
-        name: string,
-        email: string
-    }
-}
 
-export function singIn(): Promise<Response> {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({
-                token: 'bdhasbdhasby161234bhaas1252fdasfbahsdfbha',
-                user: {
-                    name: 'Victor Caique',
-                    email: 'victor.caique@email.com',
-                }
-            })
-        }, 1000)
-    })
+export async function singIn(email: string, password: string): Promise<firebase.User | any> {
+    var credencials: firebase.auth.UserCredential = {} as firebase.auth.UserCredential
+    credencials = await auth.signInWithEmailAndPassword(email, password);
+
+    return credencials.user
+
 }
 
 export function cadastro(email: string, pass: string, confirmPass: string): firebase.User | any {
@@ -28,4 +16,6 @@ export function cadastro(email: string, pass: string, confirmPass: string): fire
     if (userCredencials) {
         return userCredencials as firebase.User;
     }
+
+
 }

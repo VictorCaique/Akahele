@@ -6,8 +6,9 @@ import firebase from 'firebase';
 interface AuthContextData {
     signed: boolean,
     cadastrar(email: string, pass: string, confirmPass: string): Promise<void>,
-    user: object | null,
+    userCredencials: firebase.User | null,
     signOut(): void,
+    signIn(email: string, pass: string): Promise<void>,
     loading: boolean,
 }
 
@@ -15,7 +16,8 @@ interface AuthContextData {
 const authContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-    const [user, setUser] = useState<firebase.User | null>(null);
+    const [userCredencials, setUserCredencials] = useState<firebase.User | null>(null);
+    const [signed, setSigned] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -24,8 +26,9 @@ export const AuthProvider: React.FC = ({ children }) => {
             const storagedToken = await AsyncStorage.getItem('@RNAuth:token')
 
             if (storagedToken && storagedUser) {
-                setUser(JSON.parse(storagedUser))
+                setUserCredencials(JSON.parse(storagedUser))
                 setLoading(false);
+                setSigned(true);
             } else {
                 setLoading(false)
             }
@@ -34,25 +37,49 @@ export const AuthProvider: React.FC = ({ children }) => {
         loadStorageData();
     }, [])
 
-    async function cadastrar(email: string, pass: string, confirmPass: string) {
-        const response = auth.cadastro(email, pass, confirmPass);
+    async function signIn(email: string, pass: string): Promise<any> {
+        var userCredencials: firebase.User = {} as firebase.User;
+        userCredencials = await auth.singIn(email, pass) as firebase.User;
 
-        setUser(response as firebase.User);
+        setUserCredencials(userCredencials);
+
+        const reponseJ = userCredencials.toJSON();
+
+        const token = await userCredencials.getIdToken();
+
+        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(reponseJ))
+        await AsyncStorage.setItem('@RNAuth:token', token);
+
+        const storagedUser = await AsyncStorage.getItem('@RNAuth:user')
+        const storagedToken = await AsyncStorage.getItem('@RNAuth:token')
+
+        if (storagedToken && storagedUser) {
+            setSigned(true);
+        }
+    }
+
+    async function cadastrar(email: string, pass: string, confirmPass: string) {
+        const response = auth.cadastro(email, pass, confirmPass) as firebase.User;
+
+        setUserCredencials(response as firebase.User);
 
         const reponseJ = response.toJSON();
 
+        const token = await response.getIdToken();
+
         await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(reponseJ))
-        await AsyncStorage.setItem('@RNAuth:token', response.getIdToken())
+        await AsyncStorage.setItem('@RNAuth:token', token)
     }
 
     function signOut() {
         AsyncStorage.clear().then(() => {
-            setUser(null)
+            setUserCredencials(null);
+            setSigned(false);
         })
     }
 
     return (
-        <authContext.Provider value={{ signed: user ? true : false, cadastrar, user, signOut, loading }}>
+        <authContext.Provider value={{ signed, cadastrar, userCredencials, signOut, signIn, loading }}>
             {children}
         </authContext.Provider>
     )
