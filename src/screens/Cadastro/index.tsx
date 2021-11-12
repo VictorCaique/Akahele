@@ -3,8 +3,10 @@ import { SafeAreaView, Image, Text, ScrollView, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { TopStackParamList } from '../../types'
+import firebase from 'firebase';
 
-import authContext from '../../contexts/auth'
+// import authContext from '../../contexts/auth'
+import { cadastro } from '../../services/auth'
 
 import { EntradaTexto } from '../../components/EntradaTexto';
 import { EntradaSenha } from '../../components/EntradaSenha';
@@ -22,11 +24,12 @@ export function Cadastro({ navigation }: CadastroProps) {
     const [senha, setSenha] = React.useState("");
     const [confirm, setConfirm] = React.useState("");
 
-    const { cadastrar } = useContext(authContext);
+    // const { cadastrar } = useContext(authContext);
 
-    function handleSiginIn() {
-        cadastrar(email, senha, confirm);
-        navigation.navigate("Cadastro2");
+    async function handleCadastro() {
+        // await cadastrar(email, senha, confirm);
+        var userCredencials = await cadastro(email, senha, confirm) as firebase.User;
+        navigation.navigate("Cadastro2", { userCredencials });
     }
 
     return (
@@ -66,7 +69,7 @@ export function Cadastro({ navigation }: CadastroProps) {
                         <View style={styles.Botao}>
                             <Botao
                                 texto="Cadastrar"
-                                funcao={handleSiginIn}
+                                funcao={handleCadastro}
                             />
                         </View>
                     </View>

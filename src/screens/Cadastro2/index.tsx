@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import { View, ScrollView } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+
+import { TopStackParamList } from '../../types';
 
 import { Botao1 } from '../../components/Botao1'
+import { ImageUpload } from '../../components/ImageUpload'
 import { EntradaTexto } from '../../components/EntradaTexto'
 
 import { styles } from './style';
 import { theme } from '../../global/styles/theme'
 
-export function Cadastro2() {
+export type Cadastro2Props = StackScreenProps<TopStackParamList, "Cadastro2">;
+
+export function Cadastro2({ navigation, route }: Cadastro2Props) {
     const [nome, setNome] = useState("");
     const [phone, setPhone] = useState("");
+    const userCredencials = route.params?.userCredencials;
+    console.log("PARAM> ", userCredencials)
+    function handleSignIn() {
+
+    }
 
     return (
         <View style={styles.container}>
@@ -24,11 +35,14 @@ export function Cadastro2() {
                     inputStyle={{ color: "#000" }}
                     borderColor={theme.colors.secundary}
                     value={nome}
-                    onChangeText={setNome} />
-                <EntradaTexto style={{
-                    borderBottomColor: theme.colors.secundary,
-                    paddingBottom: '30px',
-                }}
+                    onChangeText={setNome}
+                />
+
+                <EntradaTexto
+                    style={{
+                        borderBottomColor: theme.colors.secundary,
+                        paddingBottom: 30,
+                    }}
                     placeholder="Telefone"
                     labelStyle={{ color: "#000" }}
                     inputStyle={{ color: "#000" }}

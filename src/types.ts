@@ -1,3 +1,4 @@
+import firebase from 'firebase'
 import { NavigatorScreenParams } from '@react-navigation/native'
 
 export type TopStackParamList = {
@@ -7,7 +8,7 @@ export type TopStackParamList = {
     NovaSenha: undefined,
     Cadastro: undefined,
     Home: undefined,
-    Cadastro2: undefined,
+    Cadastro2: undefined | { userCredencials: firebase.User },
 }
 
 export type TabParamList = {

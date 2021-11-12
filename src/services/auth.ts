@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import { auth } from '../config/firebaseConfig';
-import Cadastro from '../services/userCreate'
+
 
 
 export async function singIn(email: string, password: string): Promise<firebase.User | any> {
@@ -11,11 +11,11 @@ export async function singIn(email: string, password: string): Promise<firebase.
 
 }
 
-export function cadastro(email: string, pass: string, confirmPass: string): firebase.User | any {
-    const userCredencials = Cadastro(email, pass, confirmPass);
-    if (userCredencials) {
-        return userCredencials as firebase.User;
+export async function cadastro(email: string, pass: string, confirmPass: string): Promise<firebase.User | any> {
+    if (pass == confirmPass) {
+        const userCredencials = await auth.createUserWithEmailAndPassword(email, pass);
+        console.log("Cadastro concluido: ", userCredencials)
+        return userCredencials.user
     }
-
 
 }

@@ -59,16 +59,16 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     async function cadastrar(email: string, pass: string, confirmPass: string) {
-        const response = auth.cadastro(email, pass, confirmPass) as firebase.User;
+        const response = await auth.cadastro(email, pass, confirmPass) as firebase.User;
 
         setUserCredencials(response as firebase.User);
 
-        const reponseJ = response.toJSON();
+        // const reponseJ = response.toJSON();
 
-        const token = await response.getIdToken();
+        // const token = await response.getIdToken();
 
-        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(reponseJ))
-        await AsyncStorage.setItem('@RNAuth:token', token)
+        // await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(reponseJ))
+        // await AsyncStorage.setItem('@RNAuth:token', token)
     }
 
     function signOut() {
