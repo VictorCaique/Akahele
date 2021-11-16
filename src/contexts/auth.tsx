@@ -2,10 +2,13 @@ import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as auth from '../services/auth';
 import firebase from 'firebase';
+import { database } from '../config/firebaseConfig'
+
+import { userCollection } from '../types'
 
 interface AuthContextData {
     signed: boolean,
-    cadastrar(email: string, pass: string, confirmPass: string): Promise<void>,
+    cadastrar(estado: string, telefone: string, nome: string, uid: string, email: string): Promise<void>,
     userCredencials: firebase.User | null,
     signOut(): void,
     signIn(email: string, pass: string): Promise<void>,
@@ -58,10 +61,21 @@ export const AuthProvider: React.FC = ({ children }) => {
         }
     }
 
-    async function cadastrar(email: string, pass: string, confirmPass: string) {
-        const response = await auth.cadastro(email, pass, confirmPass) as firebase.User;
+    async function cadastrar(estado: string, telefone: string, nome: string, uid: string, email: string) {
 
-        setUserCredencials(response as firebase.User);
+        const docData = {
+            estado: estado,
+            email: email,
+            nome_usuario: nome,
+            telefone: telefone,
+            uid: uid
+        }
+
+        database.collection('usuarios').add(docData).then(docRef => {
+            console.log("Cadastro Concluido: ")
+            console.log(docRef);
+        })
+
 
         // const reponseJ = response.toJSON();
 

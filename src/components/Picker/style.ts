@@ -3,12 +3,10 @@ import { theme } from '../../global/styles/theme'
 
 export const styles = StyleSheet.create({
     container: {
-        height: 120,
+        flex: 1
     },
-    image: {
-        width: 115,
-        height: 115,
-        borderRadius: 57.5,
+    picker: {
+        width: 120,
+        fontFamily: theme.fonts.robotoBlack
     }
-
 })

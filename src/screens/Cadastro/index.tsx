@@ -30,6 +30,7 @@ export function Cadastro({ navigation }: CadastroProps) {
         // await cadastrar(email, senha, confirm);
         var userCredencials = await cadastro(email, senha, confirm) as firebase.User;
         navigation.navigate("Cadastro2", { userCredencials });
+        // navigation.navigate("Cadastro2");
     }
 
     return (

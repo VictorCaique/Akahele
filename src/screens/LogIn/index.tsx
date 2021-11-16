@@ -37,7 +37,7 @@ export function LogIn({ navigation }: LogInProps) {
                 style={styles.imagem} />
             <View style={styles.content}>
                 <EntradaTexto
-                    placeholder="Usuário"
+                    placeholder="Email"
                     // style={styles.input}
                     value={usuario}
                     onChangeText={setUsuario}

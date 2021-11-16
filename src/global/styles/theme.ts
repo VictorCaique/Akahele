@@ -6,6 +6,7 @@ export const theme = {
     fonts: {
         robotoBlack: 'Roboto_900Black',
         robotoLight: 'Roboto_300Light',
-        robotoMedium: 'Roboto_500Medium'
+        robotoMedium: 'Roboto_500Medium',
+        robotoRegular: 'Roboto_400Regular'
     }
 }
