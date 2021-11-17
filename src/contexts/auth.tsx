@@ -2,17 +2,18 @@ import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as auth from '../services/auth';
 import firebase from 'firebase';
-import { database } from '../config/firebaseConfig'
+import { database, storage } from '../config/firebaseConfig'
 
 import { userCollection } from '../types'
 
 interface AuthContextData {
     signed: boolean,
-    cadastrar(estado: string, telefone: string, nome: string, uid: string, email: string): Promise<void>,
+    cadastrar(estado: string, telefone: string, nome: string, userCredencials: firebase.User, image: Blob | undefined): Promise<void>,
     userCredencials: firebase.User | null,
     signOut(): void,
     signIn(email: string, pass: string): Promise<void>,
     loading: boolean,
+    user: userCollection | null,
 }
 
 
@@ -20,6 +21,7 @@ const authContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
     const [userCredencials, setUserCredencials] = useState<firebase.User | null>(null);
+    const [user, setUser] = useState<userCollection | null>(null);
     const [signed, setSigned] = useState(false);
     const [loading, setLoading] = useState(true);
 
@@ -61,28 +63,49 @@ export const AuthProvider: React.FC = ({ children }) => {
         }
     }
 
-    async function cadastrar(estado: string, telefone: string, nome: string, uid: string, email: string) {
+    async function cadastrar(estado: string, telefone: string, nome: string, userCredencials: firebase.User, image: Blob | undefined) {
 
         const docData = {
             estado: estado,
-            email: email,
+            email: userCredencials.email as string,
             nome_usuario: nome,
             telefone: telefone,
-            uid: uid
+            uid: userCredencials.uid,
+            avatar: userCredencials.uid + ".jpeg"
         }
+
+        const metaData = {
+            contentType: "image/jpeg"
+        }
+
+        setUser(docData);
 
         database.collection('usuarios').add(docData).then(docRef => {
             console.log("Cadastro Concluido: ")
             console.log(docRef);
+        });
+        var imageUp = new File([image as Blob], userCredencials.uid + ".jpeg")
+        var refStorage = storage.ref();
+        var photoRef = refStorage.child('user-avatar/' + imageUp.name);
+        photoRef.put(imageUp, metaData).then(snapshot => {
+            console.log("Imagem Upload !!!!!" + snapshot.ref)
         })
 
+        setSigned(true);
 
-        // const reponseJ = response.toJSON();
+        const reponseJ = userCredencials.toJSON();
 
-        // const token = await response.getIdToken();
+        const token = await userCredencials.getIdToken();
 
-        // await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(reponseJ))
-        // await AsyncStorage.setItem('@RNAuth:token', token)
+        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(reponseJ))
+        await AsyncStorage.setItem('@RNAuth:token', token);
+
+        const storagedUser = await AsyncStorage.getItem('@RNAuth:user')
+        const storagedToken = await AsyncStorage.getItem('@RNAuth:token')
+
+        if (storagedToken && storagedUser) {
+            setSigned(true);
+        }
     }
 
     function signOut() {
@@ -93,7 +116,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        <authContext.Provider value={{ signed, cadastrar, userCredencials, signOut, signIn, loading }}>
+        <authContext.Provider value={{ signed, cadastrar, userCredencials, signOut, signIn, loading, user }}>
             {children}
         </authContext.Provider>
     )

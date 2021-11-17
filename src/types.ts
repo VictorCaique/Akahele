@@ -26,12 +26,12 @@ export type DrawerList = {
 }
 
 export interface userCollection {
-    avatar_image?: String,
-    email: String,
-    estado: String,
-    nome_usuario: String,
-    telefone: number,
-    idUser?: String
+    avatar_image?: string,
+    email: string,
+    estado: string,
+    nome_usuario: string,
+    telefone: string,
+    idUser?: string
 }
 
 export interface postCollection {

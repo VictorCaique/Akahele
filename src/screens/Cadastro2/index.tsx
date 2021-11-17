@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import firebase from 'firebase';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { Image, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker'
 
 import { TopStackParamList } from '../../types';
@@ -24,26 +23,19 @@ export function Cadastro2({ navigation, route }: Cadastro2Props) {
 
     const [nome, setNome] = useState("");
     const [phone, setPhone] = useState("");
-    const [estado, setEstado] = useState("");
+    const [estado, setEstado] = useState("AC");
     const userCredencials = route.params?.userCredencials as firebase.User;
     const [blobImage, setBlobImage] = React.useState({} as Blob);
-    const [selectedImage, setSelectedImage] = React.useState("");
-    const [image, setImage] = React.useState<undefined | ImagePicker.ImagePickerResult>(undefined);
+    const [selectedImage, setSelectedImage] = React.useState("")
 
 
 
-    function base64ToBlob(base64: string) {
-        const byteCharacters = atob(base64);
+    async function base64ToBlob(base64: string) {
+        const response = await fetch(`data:image/jpeg;base64,${base64}`);
 
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
 
-        const byteArray = new Uint8Array(byteNumbers);
-
-        const blob = new Blob([byteArray]);
-        return blob
+        const blob = await response.blob();
+        return blob;
     }
 
     async function openImagePicker() {
@@ -60,19 +52,18 @@ export function Cadastro2({ navigation, route }: Cadastro2Props) {
         if (pickerResult.cancelled === true) {
             return;
         }
-        setImage(pickerResult);
         setSelectedImage(pickerResult.uri);
         console.log(pickerResult);
         var base = pickerResult.base64 as string
-        var bloob = base64ToBlob(base);
+        var bloob = await base64ToBlob(base);
         setBlobImage(bloob)
 
     };
 
 
     function handleSignIn() {
-        cadastrar(estado, phone, nome, userCredencials.uid, userCredencials.email as string);
-        navigation.navigate('LogIn');
+        cadastrar(estado, phone, nome, userCredencials, blobImage);
+
     }
 
     return (

@@ -13,9 +13,11 @@ export async function singIn(email: string, password: string): Promise<firebase.
 
 export async function cadastro(email: string, pass: string, confirmPass: string): Promise<firebase.User | any> {
     if (pass == confirmPass) {
-        const userCredencials = await auth.createUserWithEmailAndPassword(email, pass);
+        const userCredencials = await auth.createUserWithEmailAndPassword(email, pass).catch(e => {
+            console.log("erro: " + e);
+        });
         console.log("Cadastro concluido: ", userCredencials)
-        return userCredencials.user
+        return (userCredencials as firebase.auth.UserCredential).user
     }
 
 }
