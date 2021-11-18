@@ -8,7 +8,7 @@ import { userCollection } from '../types'
 
 interface AuthContextData {
     signed: boolean,
-    cadastrar(estado: string, telefone: string, nome: string, userCredencials: firebase.User, image: Blob | undefined): Promise<void>,
+    cadastrar(estado: string, telefone: string, nome: string, userCredencials: firebase.User, image: string | undefined): Promise<void>,
     userCredencials: firebase.User | null,
     signOut(): void,
     signIn(email: string, pass: string): Promise<void>,
@@ -63,7 +63,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         }
     }
 
-    async function cadastrar(estado: string, telefone: string, nome: string, userCredencials: firebase.User, image: Blob | undefined) {
+    async function cadastrar(estado: string, telefone: string, nome: string, userCredencials: firebase.User, image: string | undefined) {
 
         const docData = {
             estado: estado,
@@ -74,24 +74,18 @@ export const AuthProvider: React.FC = ({ children }) => {
             avatar: userCredencials.uid + ".jpeg"
         }
 
-        const metaData = {
-            contentType: "image/jpeg"
-        }
-
         setUser(docData);
 
         database.collection('usuarios').add(docData).then(docRef => {
             console.log("Cadastro Concluido: ")
             console.log(docRef);
         });
-        var imageUp = new File([image as Blob], userCredencials.uid + ".jpeg")
-        var refStorage = storage.ref();
-        var photoRef = refStorage.child('user-avatar/' + imageUp.name);
-        photoRef.put(imageUp, metaData).then(snapshot => {
-            console.log("Imagem Upload !!!!!" + snapshot.ref)
-        })
-
-        setSigned(true);
+        // var imageUp = new File([image as Blob], userCredencials.uid + ".jpeg")
+        // var refStorage = storage.ref();
+        // var photoRef = refStorage.child('user-avatar/' + imageUp.name);
+        // photoRef.put(imageUp, metaData).then(snapshot => {
+        //     console.log("Imagem Upload !!!!!" + snapshot.ref)
+        // })
 
         const reponseJ = userCredencials.toJSON();
 

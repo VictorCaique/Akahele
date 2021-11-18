@@ -20,7 +20,7 @@ export interface CadastroProps {
 }
 
 export function Cadastro({ navigation }: CadastroProps) {
-    const [email, setEmail] = React.useState("");
+    const [uemail, setEmail] = React.useState("");
     const [senha, setSenha] = React.useState("");
     const [confirm, setConfirm] = React.useState("");
 
@@ -28,7 +28,7 @@ export function Cadastro({ navigation }: CadastroProps) {
 
     async function handleCadastro() {
         // await cadastrar(email, senha, confirm);
-        var userCredencials = await cadastro(email, senha, confirm) as firebase.User;
+        var userCredencials = await cadastro(uemail, senha, confirm) as firebase.User;
         navigation.navigate("Cadastro2", { userCredencials });
         // navigation.navigate("Cadastro2");
     }
@@ -46,7 +46,7 @@ export function Cadastro({ navigation }: CadastroProps) {
 
                         <EntradaTexto
                             placeholder="Email"
-                            value={email}
+                            value={uemail}
                             onChangeText={setEmail}
                         />
                         <View style={styles.input}>

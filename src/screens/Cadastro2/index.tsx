@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import firebase from 'firebase';
-import { View, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Text, Image, TouchableOpacity, LogBox } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker'
 
@@ -15,8 +15,11 @@ import avatar from '../../assets/avatar.png';
 
 import { styles } from './style';
 import { theme } from '../../global/styles/theme'
+import { storage } from '../../config/firebaseConfig';
 
 export type Cadastro2Props = StackScreenProps<TopStackParamList, "Cadastro2">;
+
+LogBox.ignoreLogs([`Setting a timer for a long period`, 'Non-serializable values were found in the navigation state']);
 
 export function Cadastro2({ navigation, route }: Cadastro2Props) {
     const { cadastrar } = React.useContext(authContext)
@@ -24,19 +27,11 @@ export function Cadastro2({ navigation, route }: Cadastro2Props) {
     const [nome, setNome] = useState("");
     const [phone, setPhone] = useState("");
     const [estado, setEstado] = useState("AC");
+    const [imageUri, setImageUri] = useState("");
     const userCredencials = route.params?.userCredencials as firebase.User;
-    const [blobImage, setBlobImage] = React.useState({} as Blob);
     const [selectedImage, setSelectedImage] = React.useState("")
 
 
-
-    async function base64ToBlob(base64: string) {
-        const response = await fetch(`data:image/jpeg;base64,${base64}`);
-
-
-        const blob = await response.blob();
-        return blob;
-    }
 
     async function openImagePicker() {
         var permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -46,23 +41,70 @@ export function Cadastro2({ navigation, route }: Cadastro2Props) {
             return;
         }
 
-        var pickerResult = await ImagePicker.launchImageLibraryAsync({ base64: true });
+        var pickerResult = await ImagePicker.launchImageLibraryAsync({
+            base64: true,
+            allowsEditing: true,
+            aspect: [4, 3]
+        });
 
 
         if (pickerResult.cancelled === true) {
             return;
         }
         setSelectedImage(pickerResult.uri);
-        console.log(pickerResult);
-        var base = pickerResult.base64 as string
-        var bloob = await base64ToBlob(base);
-        setBlobImage(bloob)
+
+        const uploadUrl = await uploadImageAsync(pickerResult.uri);
+        setImageUri(uploadUrl)
+
+        console.log("AAAAAAAAAAAAAAAAAAAAAAA: ");
+        console.log(uploadUrl);
+
+
+
+
 
     };
 
+    async function uploadImageAsync(uri: string): Promise<any> {
+        // Why are we using XMLHttpRequest? See:
+        // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+        const blob = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+                console.log(e);
+                reject(new TypeError("Network request failed"));
+            };
+            xhr.responseType = "blob";
+            xhr.open("GET", uri, true);
+            xhr.send();
+        });
+
+
+
+        const metaData = {
+            contentType: "image/jpeg"
+        }
+
+        const fileRef = await storage.ref('user-avatar/' + userCredencials.uid + ".jpeg");
+
+
+        const response = await fileRef.put((blob as Blob), metaData);
+        console.log(response.ref + "REEEEEEEEEEEEF")
+        // (blob as any).close();
+
+
+        // We're done with the blob, close and release it
+
+
+        return await fileRef.getDownloadURL();
+    }
+
 
     function handleSignIn() {
-        cadastrar(estado, phone, nome, userCredencials, blobImage);
+        cadastrar(estado, phone, nome, userCredencials, imageUri);
 
     }
 

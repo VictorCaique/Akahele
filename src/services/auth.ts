@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { auth } from '../config/firebaseConfig';
+import { auth, storage } from '../config/firebaseConfig';
 
 
 
