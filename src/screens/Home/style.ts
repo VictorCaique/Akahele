@@ -7,12 +7,10 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignContent: "center",
         borderRadius: 15,
-        marginHorizontal: 30
     },
     imagem: {
-        marginHorizontal: 30,
         marginVertical: 10,
-        width: "80%",
+        width: "100%",
         height: 200,
 
 
@@ -57,9 +55,10 @@ export const PostImage = styled.Image`
 `;
 
 export const PostDescription = styled.Text`
-    width: 70%;
-    
+    width: 90%;
+    padding-left: 20px;
     margin-bottom: 10px;
+    text-align: justify;
 `;
 
 export const UserDescription = styled.View`
@@ -68,7 +67,8 @@ export const UserDescription = styled.View`
     justify-content: space-between;
     width: 40%;
     align-items: center;
-    padding-top: 10px;
+    padding-top: 5px;
+    padding-left: 20px;
 `;
 
 

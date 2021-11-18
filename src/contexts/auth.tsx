@@ -32,6 +32,16 @@ export const AuthProvider: React.FC = ({ children }) => {
 
             if (storagedToken && storagedUser) {
                 setUserCredencials(JSON.parse(storagedUser))
+                database.collection("usuarios").get().then(snapshot => {
+                    snapshot.forEach(doc => {
+                        var cUser = doc.data();
+                        if ((cUser as userCollection).uid == userCredencials?.uid) {
+                            setUser(cUser as userCollection);
+                            console.log(user);
+                        }
+
+                    })
+                });
                 setLoading(false);
                 setSigned(true);
             } else {
@@ -71,7 +81,7 @@ export const AuthProvider: React.FC = ({ children }) => {
             nome_usuario: nome,
             telefone: telefone,
             uid: userCredencials.uid,
-            avatar: userCredencials.uid + ".jpeg"
+            avatar_image: userCredencials.uid + ".jpeg"
         }
 
         setUser(docData);

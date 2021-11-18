@@ -32,6 +32,7 @@ export interface userCollection {
     nome_usuario: string,
     telefone: string,
     idUser?: string
+    uid: string
 }
 
 export interface postCollection {

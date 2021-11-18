@@ -19,14 +19,22 @@ import logoImage from '../../assets/logoImage.png'
 import { View } from 'react-native';
 
 import authContext from '../../contexts/auth';
+import { storage } from '../../config/firebaseConfig';
 
 export interface DrawerContentInterface {
     navigation: DrawerNavigationProp<DrawerList, 'DrawerContent'>;
 }
 
 export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
-    const { signOut } = useContext(authContext)
+    const { signOut, user } = useContext(authContext)
+    const [avatarImage, setAvatarImage] = React.useState("");
 
+    async function getAvatar(ref: string): Promise<any> {
+        const filRef = storage.ref("user-avatar/" + ref);
+        const dowloadUri = await filRef.getDownloadURL()
+        setAvatarImage(dowloadUri);
+    }
+    getAvatar(user?.avatar_image as string)
     function handleSignOut() {
         signOut();
     }
@@ -38,11 +46,11 @@ export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
                 <View style={styles.userInfoSection}>
                     <Avatar.Image
                         source={{
-                            uri: 'https://cbsnews1.cbsistatic.com/hub/i/2018/11/06/0c1af1b8-155a-458e-b105-78f1e7344bf4/2018-11-06t054310z-1334124005-rc1be15a8050-rtrmadp-3-people-sexiest-man.jpg'
+                            uri: avatarImage
                         }}
                         size={50} />
                     <View>
-                        <Title style={styles.title}>Idris Elba </Title>
+                        <Title style={styles.title}>{user?.nome_usuario} </Title>
                     </View>
                 </View>
                 <DrawerItem

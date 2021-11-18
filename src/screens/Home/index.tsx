@@ -58,17 +58,17 @@ export function Home() {
                 data={feed}
                 keyExtractor={(item, index) => String(index)}
                 renderItem={({ item }: any) => (
+
                     <Post style={styles.container}>
-                        <PostBackgroud style={styles.postBackgroud}>
-                            <PostImage style={styles.imagem} source={{ uri: item.uriImage }} />
-                            <PostDescription style={styles.description}>
-                                {item.texto_publicacao}
-                            </PostDescription>
-                        </PostBackgroud>
+
                         <UserDescription>
                             <AvatarUser source={{ uri: item.uriAvatar }} />
                             <Name style={styles.title}>{item.nome_usuario}</Name>
                         </UserDescription>
+                        <PostImage style={styles.imagem} source={{ uri: item.uriImage }} />
+                        <PostDescription style={styles.description}>
+                            {item.texto_publicacao}
+                        </PostDescription>
                     </Post>
                 )} />
 
