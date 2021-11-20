@@ -1,20 +1,22 @@
 import React from 'react';
-import { Image, View, Text } from 'react-native'
+import { Image, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import { getHeaderTitle, Header } from '@react-navigation/elements';
 import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/drawer';
 // import { createStackNavigator } from '@react-navigation/stack';
-import { } from '@react-navigation/elements';
+// import { } from '@react-navigation/elements';
 import { Ionicons } from '@expo/vector-icons';
 
 import { DrawerList } from '../types';
 
 import { Home } from '../screens/Home';
 import { Busca } from '../screens/Busca';
+import { Usuario } from '../screens/Usuario';
+import { Criar } from '../screens/Criar';
 import { Comunidades } from '../screens/Comunidades';
 import { CustomDrawerContent, DrawerContentInterface } from '../screens/DrawerContent';
 
-import { DrawerButton } from '../components/DrawerButton'
+// import { DrawerButton } from '../components/DrawerButton'
 
 import logoImage from '../assets/logoImage.png'
 import { theme } from '../global/styles/theme';
@@ -72,6 +74,15 @@ export function TabRoutes() {
                     ),
                     title: "",
                 }} />
+            <Tab.Screen name="Criar" component={Criar}
+                options={{
+                    tabBarIcon: ({ size, color }) => (
+                        <Ionicons name="add" size={size + 10} color={color} style={{
+                            marginTop: 15,
+                        }} />
+                    ),
+                    title: "",
+                }} />
         </Tab.Navigator>
     )
 }
@@ -107,6 +118,7 @@ export function DrawerRoutes() {
             <Drawer.Screen name="Home" component={TabRoutes} />
             <Drawer.Screen name="Comunidades" component={Comunidades} />
             <Drawer.Screen name="SobreNos" component={SobreNos} />
+            <Drawer.Screen name="Usuario" component={Usuario} />
         </Drawer.Navigator>
     )
 }

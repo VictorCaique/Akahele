@@ -14,7 +14,8 @@ export type TopStackParamList = {
 export type TabParamList = {
     Busca: undefined,
     Comunidades: undefined,
-
+    Criar: undefined,
+    Home: undefined,
 }
 
 export type DrawerList = {
@@ -23,6 +24,7 @@ export type DrawerList = {
     SobreNos: undefined,
     DrawerContent: undefined,
     DrawerButton: undefined,
+    Usuario: undefined,
 }
 
 export interface userCollection {
@@ -31,7 +33,7 @@ export interface userCollection {
     estado: string,
     nome_usuario: string,
     telefone: string,
-    idUser?: string
+    idUser: string
     uid: string
 }
 

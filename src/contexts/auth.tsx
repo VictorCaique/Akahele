@@ -10,6 +10,7 @@ interface AuthContextData {
     signed: boolean,
     cadastrar(estado: string, telefone: string, nome: string, userCredencials: firebase.User, image: string | undefined): Promise<void>,
     userCredencials: firebase.User | null,
+    editar(params: userCollection): Promise<void>,
     signOut(): void,
     signIn(email: string, pass: string): Promise<void>,
     loading: boolean,
@@ -26,24 +27,24 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function loadStorageData() {
+        async function loadStorageData(): Promise<void> {
             const storagedUser = await AsyncStorage.getItem('@RNAuth:user')
             const storagedToken = await AsyncStorage.getItem('@RNAuth:token')
+            // setUserCredencials(JSON.parse(storagedUser as string))
 
             if (storagedToken && storagedUser) {
-                setUserCredencials(JSON.parse(storagedUser))
-                database.collection("usuarios").get().then(snapshot => {
+                setUserCredencials(JSON.parse(storagedUser as string))
+                console.log(userCredencials?.uid)
+                database.collection("usuarios").where("uid", "==", userCredencials?.uid as string).get().then(snapshot => {
                     snapshot.forEach(doc => {
                         var cUser = doc.data();
-                        if ((cUser as userCollection).uid == userCredencials?.uid) {
-                            setUser(cUser as userCollection);
-                            console.log(user);
-                        }
+                        setUser(cUser as userCollection);
+                        console.log(user);
 
+                        setLoading(false);
+                        setSigned(true);
                     })
                 });
-                setLoading(false);
-                setSigned(true);
             } else {
                 setLoading(false)
             }
@@ -57,6 +58,17 @@ export const AuthProvider: React.FC = ({ children }) => {
         userCredencials = await auth.singIn(email, pass) as firebase.User;
 
         setUserCredencials(userCredencials);
+
+        database.collection("usuarios").get().then(snapshot => {
+            snapshot.forEach(doc => {
+                var cUser = doc.data();
+                if ((cUser as userCollection).uid == userCredencials?.uid) {
+                    setUser(cUser as userCollection);
+                    console.log(user);
+                }
+
+            })
+        })
 
         const reponseJ = userCredencials.toJSON();
 
@@ -73,6 +85,10 @@ export const AuthProvider: React.FC = ({ children }) => {
         }
     }
 
+    async function editar(params: userCollection) {
+        await database.collection('usuarios').doc(user?.idUser as string).set(params);
+    }
+
     async function cadastrar(estado: string, telefone: string, nome: string, userCredencials: firebase.User, image: string | undefined) {
 
         const docData = {
@@ -81,12 +97,22 @@ export const AuthProvider: React.FC = ({ children }) => {
             nome_usuario: nome,
             telefone: telefone,
             uid: userCredencials.uid,
-            avatar_image: userCredencials.uid + ".jpeg"
+            avatar_image: userCredencials.uid + ".jpeg",
+            idUser: ""
         }
 
         setUser(docData);
 
         database.collection('usuarios').add(docData).then(docRef => {
+            database.collection('usuarios').doc(docRef.id).set({
+                estado: estado,
+                email: userCredencials.email as string,
+                nome_usuario: nome,
+                telefone: telefone,
+                uid: userCredencials.uid,
+                avatar_image: userCredencials.uid + ".jpeg",
+                idUser: docRef.id
+            });
             console.log("Cadastro Concluido: ")
             console.log(docRef);
         });
@@ -120,7 +146,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        <authContext.Provider value={{ signed, cadastrar, userCredencials, signOut, signIn, loading, user }}>
+        <authContext.Provider value={{ signed, cadastrar, editar, userCredencials, signOut, signIn, loading, user }}>
             {children}
         </authContext.Provider>
     )

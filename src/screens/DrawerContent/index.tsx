@@ -61,7 +61,7 @@ export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
                             name="account-outline"
                             size={size}
                             color="#D9007A" />}
-                    onPress={() => { }} />
+                    onPress={() => { navigation.navigate("Usuario") }} />
                 <DrawerItem
                     style={styles.drawerSection}
                     label={() => <Text style={styles.label}>Criar Comunidade</Text>}

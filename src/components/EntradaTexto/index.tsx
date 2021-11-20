@@ -22,6 +22,8 @@ export function EntradaTexto(props: Props) {
             labelStyle={props.labelStyle != undefined ? props.labelStyle : styles.label}
             inputStyle={props.inputStyle != undefined ? props.inputStyle : styles.label}
             keyboardType={props.isNumeric ? "number-pad" : "default"}
+            multiline={true}
+            height={props.height}
         />
     );
 

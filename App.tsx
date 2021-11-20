@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, LogBox } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native'
 
@@ -11,7 +11,10 @@ import { Roboto_900Black, Roboto_300Light, Roboto_500Medium, Roboto_400Regular }
 import { useFonts } from 'expo-font'
 
 
+
 export default function App() {
+
+  LogBox.ignoreLogs(["source.uri should not be an empty string"])
   const [fontsLoaded] = useFonts({
     Roboto_900Black,
     Roboto_300Light,

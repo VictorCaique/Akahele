@@ -35,7 +35,7 @@ export function Home() {
                         // console.log("UURL: ", url);
                         storageRef.child("user-avatar/" + docData.avatar_image).getDownloadURL().then(avatarUrl => {
                             list.push({ ...doc.data(), idPost: doc.id, uriImage: url, uriAvatar: avatarUrl });
-                            console.log("SACO: ", list)
+                            // console.log("SACO: ", list)
                             setFeed(list);
                         })
                     }).catch(e => {
@@ -49,7 +49,7 @@ export function Home() {
         }
         loadFeed();
         // console.log("*******************************");
-        console.log("FEED: ", feed);
+        // console.log("FEED: ", feed);
     }, [])
 
     return (

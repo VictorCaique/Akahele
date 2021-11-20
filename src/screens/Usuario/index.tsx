@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import firebase from 'firebase';
+import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Text, Image, TouchableOpacity, LogBox } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 import * as ImagePicker from 'expo-image-picker'
 
-import { TopStackParamList } from '../../types';
+import { DrawerList, userCollection } from '../../types';
 import authContext from '../../contexts/auth'
 
 import { Botao1 } from '../../components/Botao1'
@@ -15,23 +14,33 @@ import avatar from '../../assets/avatar.png';
 
 import { styles } from './style';
 import { theme } from '../../global/styles/theme'
-import { storage } from '../../config/firebaseConfig';
+import { storage, database } from '../../config/firebaseConfig';
 
-export type Cadastro2Props = StackScreenProps<TopStackParamList, "Cadastro2">;
+export type UsuarioProps = DrawerScreenProps<DrawerList, "Usuario">;
 
 LogBox.ignoreLogs([`Setting a timer for a long period`, 'Non-serializable values were found in the navigation state']);
 
-export function Cadastro2({ navigation, route }: Cadastro2Props) {
-    const { cadastrar } = React.useContext(authContext)
+export function Usuario({ navigation }: UsuarioProps) {
+    const { user, editar } = React.useContext(authContext)
 
     const [nome, setNome] = useState("");
     const [phone, setPhone] = useState("");
     const [imageUri, setImageUri] = useState("");
     const [selectedImage, setSelectedImage] = React.useState("")
     const [estado, setEstado] = useState("AC");
-    const userCredencials = route.params?.userCredencials as firebase.User;
 
+    useEffect(() => {
+        setNome(user?.nome_usuario as string);
+        setPhone(user?.telefone as string);
+        setEstado(user?.estado as string);
 
+        console.log(user)
+        async function getAvatarImage() {
+            var fileRef = await storage.ref("user-avatar/" + user?.avatar_image).getDownloadURL();
+            setImageUri(fileRef);
+        }
+        getAvatarImage();
+    }, [])
 
     async function openImagePicker() {
         var permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -88,7 +97,7 @@ export function Cadastro2({ navigation, route }: Cadastro2Props) {
             contentType: "image/jpeg"
         }
 
-        const fileRef = await storage.ref('user-avatar/' + userCredencials.uid + ".jpeg");
+        const fileRef = await storage.ref('user-avatar/' + user?.uid + ".jpeg");
 
 
         const response = await fileRef.put((blob as Blob), metaData);
@@ -103,8 +112,18 @@ export function Cadastro2({ navigation, route }: Cadastro2Props) {
     }
 
 
-    function handleSignIn() {
-        cadastrar(estado, phone, nome, userCredencials, imageUri);
+    async function handleEditar() {
+        var data = {
+            avatar_image: user?.avatar_image as string,
+            email: user?.email as string,
+            uid: user?.uid as string,
+            estado: estado as string,
+            idUser: user?.idUser,
+            nome_usuario: nome as string,
+            telefone: phone as string,
+        } as userCollection
+        await editar(data);
+        navigation.navigate('Home')
 
     }
 
@@ -114,7 +133,7 @@ export function Cadastro2({ navigation, route }: Cadastro2Props) {
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}
                 centerContent={true}>
                 <TouchableOpacity style={styles.butomPicker} onPress={openImagePicker}>
-                    <Image style={styles.image} source={selectedImage ? { uri: selectedImage } : avatar} />
+                    <Image style={styles.image} source={selectedImage ? { uri: selectedImage } : { uri: imageUri }} />
                 </TouchableOpacity>
 
                 <View style={styles.input}>
@@ -153,8 +172,8 @@ export function Cadastro2({ navigation, route }: Cadastro2Props) {
                 </View>
                 <View style={styles.butomConfirm}>
                     <Botao1
-                        texto="Confirmar"
-                        funcao={handleSignIn} />
+                        texto="Editar"
+                        funcao={handleEditar} />
                 </View>
             </ScrollView>
         </View>
