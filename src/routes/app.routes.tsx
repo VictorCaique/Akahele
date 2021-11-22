@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import { getHeaderTitle, Header } from '@react-navigation/elements';
-import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
 // import { createStackNavigator } from '@react-navigation/stack';
 // import { } from '@react-navigation/elements';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,6 +21,7 @@ import { CustomDrawerContent, DrawerContentInterface } from '../screens/DrawerCo
 import logoImage from '../assets/logoImage.png'
 import { theme } from '../global/styles/theme';
 import { SobreNos } from '../screens/SobreNos';
+import { DrawerButton } from '../components/DrawerButton';
 
 
 // Começando o Tab Navigator
@@ -98,23 +99,25 @@ export function DrawerRoutes() {
 
     return (
         <Drawer.Navigator
-            drawerContent={({ navigation }: DrawerContentInterface) => <CustomDrawerContent navigation={navigation} />}
-            screenOptions={{
 
+            screenOptions={{
+                header: props => <DrawerButton></DrawerButton>,
                 headerStyle: {
                     backgroundColor: theme.colors.primary,
+                    height: 50,
                 },
                 headerRight: props => <View>
                     <Image source={logoImage} style={{ width: 55, height: 55, marginRight: 30 }} />
                 </View>,
                 headerTitle: " ",
-                drawerType: 'front',
                 headerTintColor: '#FFF',
                 // headerLeft: () => <DrawerButton />,
-                swipeMinDistance: 10
+
+            }}
+            drawerContent={(props: any) => <CustomDrawerContent navigation={props.navigation} />}
 
 
-            }}>
+        >
             <Drawer.Screen name="Home" component={TabRoutes} />
             <Drawer.Screen name="Comunidades" component={Comunidades} />
             <Drawer.Screen name="SobreNos" component={SobreNos} />

@@ -30,9 +30,9 @@ export const AuthProvider: React.FC = ({ children }) => {
         async function loadStorageData(): Promise<void> {
             const storagedUser = await AsyncStorage.getItem('@RNAuth:user')
             const storagedToken = await AsyncStorage.getItem('@RNAuth:token')
-            // setUserCredencials(JSON.parse(storagedUser as string))
+            setUserCredencials(JSON.parse(storagedUser as string))
 
-            if (storagedToken && storagedUser) {
+            if (storagedToken && storagedUser && userCredencials) {
                 setUserCredencials(JSON.parse(storagedUser as string))
                 console.log(userCredencials?.uid)
                 database.collection("usuarios").where("uid", "==", userCredencials?.uid as string).get().then(snapshot => {

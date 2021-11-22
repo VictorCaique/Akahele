@@ -11,7 +11,7 @@ import {
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { DrawerNavigationProp } from '@react-navigation/drawer'
+import { DrawerContentComponentProps, DrawerNavigationProp } from '@react-navigation/drawer'
 
 import { DrawerList } from '../../types'
 import { styles } from './style';
@@ -22,7 +22,7 @@ import authContext from '../../contexts/auth';
 import { storage } from '../../config/firebaseConfig';
 
 export interface DrawerContentInterface {
-    navigation: DrawerNavigationProp<DrawerList, 'DrawerContent'>;
+    navigation: DrawerNavigationProp<DrawerList>;
 }
 
 export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
