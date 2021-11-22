@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { FlatList, Text, View } from 'react-native'
+import React, { useState, useEffect, useContext } from 'react';
+import { FlatList, Text, View, LogBox, Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'
 
-import getFeed from '../../services/feed'
+import authContext from '../../contexts/auth';
+// import { MenuDrop } from "../../components/Menu"
 
 import { userCollection, postCollection } from '../../types'
 
@@ -20,6 +22,10 @@ import {
 } from './style';
 
 export function Home() {
+    LogBox.ignoreLogs(["[Unhandled promise rejection: FirebaseError: Firebase Storage: Object 'user-avatar/undefined' does not exist. (storage/object-not-found)]"])
+
+    const { user } = useContext(authContext)
+
     const initialArr: Array<Object> = []
     const [feed, setFeed] = useState(initialArr);
     // const [user, setUser] = useState(initialArr);
@@ -35,7 +41,7 @@ export function Home() {
                         // console.log("UURL: ", url);
                         storageRef.child("user-avatar/" + docData.avatar_image).getDownloadURL().then(avatarUrl => {
                             list.push({ ...doc.data(), idPost: doc.id, uriImage: url, uriAvatar: avatarUrl });
-                            // console.log("SACO: ", list)
+                            console.log("SACO: ", list)
                             setFeed(list);
                         })
                     }).catch(e => {
@@ -52,6 +58,26 @@ export function Home() {
         // console.log("FEED: ", feed);
     }, [])
 
+    const deletarPost = (idPost: string, usuario: string) => {
+        if (usuario == user?.uid) {
+            database.collection("publicacao").doc(idPost).delete().then(e => {
+                console.log("Deletado")
+            })
+        } else {
+            Alert.alert('Atenção', 'Você não tem permissão para excluir essa publicação.')
+        }
+    }
+
+    const deleteAlert = (idPost: string, usuario: string) =>
+        Alert.alert('Atenção', 'Tem certeza que deseja excluir essa publicação?', [
+            {
+                text: 'Cancelar',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            { text: 'OK', onPress: () => deletarPost(idPost, usuario) },
+        ]);
+
     return (
         <View>
             <FlatList
@@ -64,7 +90,9 @@ export function Home() {
                         <UserDescription>
                             <AvatarUser source={{ uri: item.uriAvatar }} />
                             <Name style={styles.title}>{item.nome_usuario}</Name>
+                            <Ionicons style={{ alignSelf: "flex-end" }} name="close" size={20} color={"#FF0000"} onPress={() => { deleteAlert(item.idPost, item.usuario) }} />
                         </UserDescription>
+
                         <PostImage style={styles.imagem} source={{ uri: item.uriImage }} />
                         <PostDescription style={styles.description}>
                             {item.texto_publicacao}

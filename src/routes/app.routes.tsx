@@ -42,6 +42,7 @@ export function TabRoutes() {
                     height: 55,
                 },
                 headerShown: false,
+
             }
 
             }>
@@ -101,10 +102,9 @@ export function DrawerRoutes() {
         <Drawer.Navigator
 
             screenOptions={{
-                header: props => <DrawerButton></DrawerButton>,
+                headerShown: true,
                 headerStyle: {
                     backgroundColor: theme.colors.primary,
-                    height: 50,
                 },
                 headerRight: props => <View>
                     <Image source={logoImage} style={{ width: 55, height: 55, marginRight: 30 }} />

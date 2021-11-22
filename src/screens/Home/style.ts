@@ -50,7 +50,7 @@ export const Name = styled.Text`
     margin-left: 10px;
 `;
 
-export const PostImage = styled.Image`
+export const PostImage = styled.ImageBackground`
  width: 100%;
 `;
 

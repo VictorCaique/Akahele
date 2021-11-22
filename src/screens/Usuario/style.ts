@@ -46,5 +46,11 @@ export const styles = StyleSheet.create({
     picker: {
         paddingVertical: 20,
         paddingLeft: 20
+    },
+    excluirText: {
+        color: "#FF0000",
+        borderBottomWidth: 1,
+        borderBottomColor: "#FF0000",
+        paddingTop: 15
     }
 })

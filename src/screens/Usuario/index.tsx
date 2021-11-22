@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, Image, TouchableOpacity, LogBox } from 'react-native';
+import { View, ScrollView, Text, Image, TouchableOpacity, LogBox, Alert, Button } from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import * as ImagePicker from 'expo-image-picker'
 
@@ -14,14 +14,14 @@ import avatar from '../../assets/avatar.png';
 
 import { styles } from './style';
 import { theme } from '../../global/styles/theme'
-import { storage, database } from '../../config/firebaseConfig';
+import { storage, database, auth } from '../../config/firebaseConfig';
 
 export type UsuarioProps = DrawerScreenProps<DrawerList, "Usuario">;
 
 LogBox.ignoreLogs([`Setting a timer for a long period`, 'Non-serializable values were found in the navigation state']);
 
 export function Usuario({ navigation }: UsuarioProps) {
-    const { user, editar } = React.useContext(authContext)
+    const { user, editar, signOut } = React.useContext(authContext)
 
     const [nome, setNome] = useState("");
     const [phone, setPhone] = useState("");
@@ -127,6 +127,31 @@ export function Usuario({ navigation }: UsuarioProps) {
 
     }
 
+    const deleteAlert = (idUser: string, uid: string) =>
+        Alert.alert('Atenção', 'Tem certeza que deseja excluir sua conta?', [
+            {
+                text: 'Cancelar',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            { text: 'OK', onPress: () => deletarUser(idUser, uid) },
+        ]);
+
+    const deletarUser = (idUser: string, uid: string) => {
+        if (uid == user?.uid) {
+            const dUser = auth.currentUser;
+            dUser?.delete().then(() => {
+                console.log("Auth Deletado")
+            })
+            database.collection("usuarios").doc(idUser).delete().then(e => {
+                console.log("User Deletado");
+            })
+            signOut();
+        } else {
+            Alert.alert('Atenção', 'Não tem Permissão para exlcuir essa conta');
+        }
+    }
+
     return (
         <View style={styles.container}>
 
@@ -174,6 +199,7 @@ export function Usuario({ navigation }: UsuarioProps) {
                     <Botao1
                         texto="Editar"
                         funcao={handleEditar} />
+                    <TouchableOpacity onPress={() => { deleteAlert(user?.idUser as string, user?.uid as string) }}><Text style={styles.excluirText}> Excluir conta </Text></TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
