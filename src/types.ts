@@ -22,9 +22,16 @@ export type DrawerList = {
     Home: undefined,
     Comunidades: undefined,
     SobreNos: undefined,
+    Busca: undefined,
     DrawerContent: undefined,
     DrawerButton: undefined,
     Usuario: undefined,
+    Suport: undefined
+}
+
+export type AppList = {
+    DrawerRoutes: undefined,
+    TabRoutes: undefined
 }
 
 export interface userCollection {

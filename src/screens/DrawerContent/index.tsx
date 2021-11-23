@@ -55,6 +55,15 @@ export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
                 </View>
                 <DrawerItem
                     style={styles.drawerSection}
+                    label={() => <Text style={styles.label}>Home</Text>}
+                    icon={({ size, color }) =>
+                        <MaterialCommunityIcons
+                            name="home-outline"
+                            size={size}
+                            color="#E67E22" />}
+                    onPress={() => { navigation.navigate("Home") }} />
+                <DrawerItem
+                    style={styles.drawerSection}
                     label={() => <Text style={styles.label}>Usuário</Text>}
                     icon={({ size, color }) =>
                         <MaterialCommunityIcons
@@ -70,7 +79,7 @@ export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
                             name="plus"
                             size={size}
                             color="#185cfd" />}
-                    onPress={() => { }} />
+                    onPress={() => { navigation.navigate("Comunidades") }} />
                 <DrawerItem
                     style={styles.drawerSection}
                     label={() => <Text style={styles.label}>Suporte</Text>}
@@ -79,7 +88,7 @@ export function CustomDrawerContent({ navigation }: DrawerContentInterface) {
                             name="headset"
                             size={size}
                             color="#2D6E31" />}
-                    onPress={() => { }} />
+                    onPress={() => { navigation.navigate("Suport") }} />
                 <DrawerItem
                     style={styles.sobreNos}
                     label={() => <Text style={styles.label}>Sobre Nós</Text>}

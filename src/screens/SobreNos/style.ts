@@ -4,7 +4,10 @@ import { theme } from '../../global/styles/theme'
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: "center",
+        alignContent: "center",
+        flexDirection: "column"
     },
     backgroundImage: {
         backgroundColor: theme.colors.primary,

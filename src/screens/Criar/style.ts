@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
         width: '100%'
     },
     image: {
-        width: 100,
+        width: '100%',
         height: 115,
         // borderRadius: 57.5,
     },
@@ -39,6 +39,7 @@ export const styles = StyleSheet.create({
     },
     input: {
         marginTop: 30,
+        paddingHorizontal: 30
     },
     label: {
         fontFamily: theme.fonts.robotoRegular,

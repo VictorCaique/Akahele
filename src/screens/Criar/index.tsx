@@ -129,13 +129,14 @@ export function Criar({ navigation }: CriarProps) {
                         borderBottomColor: theme.colors.secundary,
                         minWidth: 300,
                     }}
-                        placeholder="Descrição"
+                        placeholder="Escreva sobre isso"
                         labelStyle={{ color: "#000" }}
                         inputStyle={{ color: "#000" }}
                         borderColor={theme.colors.secundary}
                         value={desc}
                         onChangeText={setDesc}
-                        height={200}
+
+
                     />
 
                 </View>

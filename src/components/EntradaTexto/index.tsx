@@ -24,6 +24,8 @@ export function EntradaTexto(props: Props) {
             keyboardType={props.isNumeric ? "number-pad" : "default"}
             multiline={true}
             height={props.height}
+            textBreakStrategy={"highQuality"}
+
         />
     );
 

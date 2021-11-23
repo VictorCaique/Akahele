@@ -112,11 +112,11 @@ export function Home() {
                 renderItem={({ item }: any) => (
 
                     <Post style={styles.container}>
+                        <Ionicons style={{ position: "absolute", right: 40, top: 10 }} name="close" size={20} color={"#FF0000"} onPress={() => { deleteAlert(item.idPost, item.usuario) }} />
 
                         <UserDescription>
                             <AvatarUser source={{ uri: item.uriAvatar }} />
                             <Name style={styles.title}>{item.nome_usuario}</Name>
-                            <Ionicons style={{ alignSelf: "flex-end" }} name="close" size={20} color={"#FF0000"} onPress={() => { deleteAlert(item.idPost, item.usuario) }} />
                         </UserDescription>
 
                         <PostImage style={styles.imagem} source={{ uri: item.uriImage }} />
