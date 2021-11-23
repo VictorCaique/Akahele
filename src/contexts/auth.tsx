@@ -31,16 +31,17 @@ export const AuthProvider: React.FC = ({ children }) => {
             const storagedUser = await AsyncStorage.getItem('@RNAuth:user')
             const storagedToken = await AsyncStorage.getItem('@RNAuth:token')
             setUserCredencials(JSON.parse(storagedUser as string))
-            console.log(storagedUser);
+            var pUid = userCredencials?.uid;
 
-            if (storagedToken && storagedUser && userCredencials?.uid != undefined) {
-                setUserCredencials(JSON.parse(storagedUser as string))
-                console.log(userCredencials?.uid)
-                database.collection("usuarios").where("uid", "==", userCredencials?.uid as string).get().then(snapshot => {
+
+            if (storagedUser && pUid !== undefined) {
+                console.log("AAAAAAAA" + userCredencials?.uid)
+                database.collection("usuarios").where("uid", "==", pUid as string).get().then(snapshot => {
+                    console.log("Busca: " + snapshot.docs.length)
                     snapshot.forEach(doc => {
                         var cUser = doc.data();
                         setUser(cUser as userCollection);
-                        console.log(user);
+                        console.log("UUser" + user);
 
                         setLoading(false);
                         setSigned(true);

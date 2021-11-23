@@ -12,7 +12,7 @@ import { database, storage } from '../../config/firebaseConfig';
 
 import {
     Post,
-    PostBackgroud,
+    Loading,
     PostImage,
     AvatarUser,
     Name,
@@ -28,12 +28,17 @@ export function Home() {
 
     const initialArr: Array<Object> = []
     const [feed, setFeed] = useState(initialArr);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     // const [user, setUser] = useState(initialArr);
 
-    useEffect(() => {
-        async function loadFeed() {
-            var storageRef = storage.ref()
-            database.collection('publicacao').get().then(querySnapshot => {
+    async function loadPage(pageNumber = page, shouldRefresh = false) {
+        setLoading(true)
+
+        async function loadFeed(pageNum = pageNumber, refresh = shouldRefresh) {
+            var storageRef = storage.ref();
+            database.collection('publicacao').limit(5).orderBy('usuario').startAfter(pageNum > 1 ? (pageNum * 5) - 1 : 1).get().then(querySnapshot => {
                 var list: Array<Object> = []
                 querySnapshot.forEach(doc => {
                     var docData = doc.data() as postCollection;
@@ -42,7 +47,9 @@ export function Home() {
                         storageRef.child("user-avatar/" + docData.avatar_image).getDownloadURL().then(avatarUrl => {
                             list.push({ ...doc.data(), idPost: doc.id, uriImage: url, uriAvatar: avatarUrl });
                             console.log("SACO: ", list)
-                            setFeed(list);
+                            const data = feed
+
+                            setFeed(refresh ? data : [...data, ...list]);
                         })
                     }).catch(e => {
                         console.log("ERROR: " + e);
@@ -53,7 +60,21 @@ export function Home() {
 
             })
         }
-        loadFeed();
+        await loadFeed(page);
+        setLoading(false);
+        setPage(page + 1);
+    }
+
+    async function refreshList() {
+        setRefreshing(true);
+
+        await loadPage(1, refreshing);
+
+        setRefreshing(false)
+    }
+
+    useEffect(() => {
+        loadPage();
         // console.log("*******************************");
         // console.log("FEED: ", feed);
     }, [])
@@ -83,6 +104,11 @@ export function Home() {
             <FlatList
                 data={feed}
                 keyExtractor={(item, index) => String(index)}
+                onEndReached={() => loadPage()}
+                refreshing={refreshing}
+                onRefresh={refreshList}
+                onEndReachedThreshold={0.1}
+                ListFooterComponent={loading ? <Loading /> : null}
                 renderItem={({ item }: any) => (
 
                     <Post style={styles.container}>

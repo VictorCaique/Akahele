@@ -71,6 +71,13 @@ export const UserDescription = styled.View`
     padding-left: 20px;
 `;
 
+export const Loading = styled.ActivityIndicator.attrs({
+    size: 'small',
+    color: '#999'
+})`
+margin: 30px 0
+`
+
 
 
 

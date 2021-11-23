@@ -1,8 +1,6 @@
 import firebase from 'firebase';
 import { auth, storage } from '../config/firebaseConfig';
 
-
-
 export async function singIn(email: string, password: string): Promise<firebase.User | any> {
     var credencials: firebase.auth.UserCredential = {} as firebase.auth.UserCredential
     credencials = await auth.signInWithEmailAndPassword(email, password);
