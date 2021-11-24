@@ -49,7 +49,9 @@ export function Home() {
                             console.log("SACO: ", list)
                             const data = feed
 
-                            setFeed(refresh ? data : [...data, ...list]);
+                            setFeed(refresh ? list : [...data, ...list]);
+                            setLoading(false);
+                            setPage(page + 1);
                         })
                     }).catch(e => {
                         console.log("ERROR: " + e);
@@ -61,14 +63,13 @@ export function Home() {
             })
         }
         await loadFeed(page);
-        setLoading(false);
-        setPage(page + 1);
     }
 
     async function refreshList() {
         setRefreshing(true);
 
-        await loadPage(1, refreshing);
+        setPage(1);
+        await loadPage(page, true);
 
         setRefreshing(false)
     }
