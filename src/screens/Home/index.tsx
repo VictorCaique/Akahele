@@ -38,7 +38,7 @@ export function Home() {
 
         async function loadFeed(pageNum = pageNumber, refresh = shouldRefresh) {
             var storageRef = storage.ref();
-            database.collection('publicacao').limit(5).orderBy('usuario').startAfter(pageNum > 1 ? (pageNum * 5) - 1 : 1).get().then(querySnapshot => {
+            database.collection('publicacao').limit(5).orderBy('data').startAfter(pageNum > 1 ? (pageNum * 5) - 1 : 1).get().then(querySnapshot => {
                 var list: Array<Object> = []
                 querySnapshot.forEach(doc => {
                     var docData = doc.data() as postCollection;

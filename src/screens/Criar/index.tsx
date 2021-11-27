@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import * as ImagePicker from 'expo-image-picker';
+import firebase from 'firebase';
 import { storage, database } from '../../config/firebaseConfig'
 
 import authContext from '../../contexts/auth'
@@ -98,16 +99,23 @@ export function Criar({ navigation }: CriarProps) {
 
     async function handlePost() {
 
+        var myTimestamp = firebase.firestore.Timestamp.fromDate(new Date())
+
         const postData = {
             avatar_image: user?.avatar_image,
             nome_usuario: user?.nome_usuario,
             post_image: user?.uid + "_" + postImId + ".jpeg",
             texto_publicacao: desc,
-            usuario: user?.uid
+            usuario: user?.uid,
+            data: myTimestamp
         }
 
         database.collection("publicacao").add(postData).then(ev => {
-            console.log("Post publicado")
+            console.log("Post publicado");
+            database.doc("publicacao/stats").get().then(doc => {
+                var stats = doc.data();
+                database.doc("publicacao/stats").set({ total_post: (stats as any).total_post + 1 })
+            })
         })
 
         const uploadUrl = await uploadImageAsync(selectedImage);
