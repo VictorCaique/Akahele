@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, FlatList, LogBox, Alert } from 'react-native';
+import { View, FlatList, LogBox, Alert, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
@@ -55,7 +55,9 @@ export function Busca({ navigation }: DrawerScreenProps<DrawerList>) {
                             console.log("SACO: ", list)
                             const data = feed
 
-                            setFeed(refresh ? data : [...data, ...list]);
+                            setFeed(refresh ? list : [...data, ...list]);
+                            setLoading(false);
+                            setPage(page + 1);
                         })
                     }).catch(e => {
                         console.log("ERROR: " + e);
@@ -67,14 +69,22 @@ export function Busca({ navigation }: DrawerScreenProps<DrawerList>) {
             })
         }
         await loadFeed(page);
-        setLoading(false);
-        setPage(page + 1);
     }
 
     async function refreshList() {
         setRefreshing(true);
 
-        await loadPage(1, refreshing);
+        setPage(1);
+        await loadPage(page, true);
+
+        setRefreshing(false)
+    }
+
+    async function handleBusca() {
+        setRefreshing(true);
+        setFeed(initialArr)
+        setPage(1);
+        await loadPage(page, true, mensagem);
 
         setRefreshing(false)
     }
@@ -111,9 +121,9 @@ export function Busca({ navigation }: DrawerScreenProps<DrawerList>) {
             <View style={st.styles.containerBusca}>
                 <EntradaTexto style={{
                     borderBottomColor: "#0B6E73",
-                    minWidth: 300,
+                    minWidth: "60%",
                 }}
-                    placeholder="Busque por usuários ou comunidades "
+                    placeholder="Busque por usuários"
                     labelStyle={{ color: "#0B6E73", fontFamily: theme.fonts.robotoMedium }}
                     inputStyle={{ color: "#000" }}
                     borderColor={"#0B6E73"}
@@ -121,6 +131,9 @@ export function Busca({ navigation }: DrawerScreenProps<DrawerList>) {
                     onChangeText={setMensagem}
                     height={60}
                 />
+                <TouchableOpacity style={st.styles.containerIcon} onPress={handleBusca}>
+                    <Ionicons name="search" color="#0B6E73" size={30} />
+                </TouchableOpacity>
             </View>
             <FlatList
                 data={feed}
